@@ -3,17 +3,13 @@
 <h2>Postări Recente</h2>
 
 <% if (posts.length > 0) { %>
-  <ul>
-    <% posts.forEach(post => { %>
-      <li>
-        <h3>
-          <%= post.title %>
-        </h3>
-        <p><%= post.content.substring(0, 150) %>...</p> <small>Publicat la: <%= post.createdAt.toLocaleDateString('ro-RO') %></small>
-      </li>
-      <hr>
-    <% }) %>
-  </ul>
+  <% posts.forEach(post => { %>
+    <div class="blog-post">  <%# Adaugă această clasă %>
+      <h3><%= post.title %></h3>
+      <p><%= post.content.substring(0, 150) %>...</p>
+      <small>Publicat la: <%= post.createdAt.toLocaleDateString('ro-RO') %></small>
+    </div>
+  <% }) %>
 <% } else { %>
   <p>Momentan nu există postări.</p>
 <% } %>

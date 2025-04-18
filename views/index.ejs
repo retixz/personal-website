@@ -1,25 +1,92 @@
-<%- include('partials/header') %> <h2>Bun venit!</h2>
-<p>Aceasta este pagina principală a website-ului meu personal.</p>
-<p>Găsești mai multe informații despre mine și parcursul meu profesional explorând link-urile din meniu.</p>
-<%- include('partials/footer') %> ```
-
-* `views/contact.ejs`: Șablonul pentru pagina de contact.
-
-```html
 <%- include('partials/header') %>
 
-<h2>Contact</h2>
-<p>Mă poți contacta folosind următoarele detalii:</p>
-<ul>
-  <% if (typeof email !== 'undefined') { %>
-    <li>Email: <a href="mailto:<%= email %>"><%= email %></a></li>
-  <% } %>
-  <% if (typeof phone !== 'undefined') { %>
-    <li>Telefon: <%= phone %></li>
-  <% } %>
-   <% if (typeof linkedinProfile !== 'undefined') { %>
-    <li><a href="<%= linkedinProfile %>" target="_blank">Profil LinkedIn</a></li>
-  <% } %>
-</ul>
+<%# Main content area wrapper for layout %>
+<div class="main-content-area"> 
+
+    <%# Left Column %>
+    <aside class="left-column" id="about">
+        <section class="intro-card card">
+            <div class="availability">
+                <span>•</span> Available for work
+            </div>
+            <h1>Alexandru Stoica</h1> 
+            <p class="role">Software Enginieer</p> 
+            <p class="bio">[Short Description]</p> 
+          
+            <div class="action-buttons">
+                <a href="/contact" class="cta-button primary">Hire Me</a>
+                <% if(locals.email) { %>
+                    <button class="cta-button secondary" id="copy-email-btn" data-email="<%= locals.email %>">Copy Email</button> 
+                <% } %>
+            </div>
+            <div class="cta-cv-area"> 
+                 <% if (locals.cvPath) { %>
+                     <a href="<%= locals.cvPath %>" class="cta-button tertiary" target="_blank">Download my CV</a>
+                 <% } %>
+            </div>
+        </section>
+
+        <section class="projects-list card">
+            <div class="list-header">
+                <h3>Projects</h3>
+                <%# Link to a dedicated projects page or remove %>
+                <a href="/projects" class="view-all">View All &rarr;</a> 
+            </div>
+            <ul>
+                <%# Example Project Item - Replace with dynamic data later (e.g., from blog posts) %>
+                <li>
+                    <a href="/blog/project-1"> <%# Link to a specific post/project %>
+                        <span class="project-icon">[ICON]</span> <%# Placeholder %>
+                        <span class="project-info">
+                            <strong>Project Title 1</strong>
+                            <small>Brief description or type</small> 
+                        </span>
+                         <span class="arrow">&rarr;</span>
+                    </a>
+                 </li>
+                 <li>
+                    <a href="/blog/project-2">
+                        <span class="project-icon">[ICON]</span>
+                         <span class="project-info">
+                            <strong>Project Title 2</strong>
+                            <small>Another description</small> 
+                        </span>
+                        <span class="arrow">&rarr;</span>
+                    </a>
+                 </li>
+            </ul>
+        </section>
+        
+         <section class="products-list card"> 
+             <div class="list-header">
+                <h3>Products</h3>
+                <%# <a href="/products" class="view-all">View All &rarr;</a> %>
+            </div>
+             <ul>
+                 <li>Product 1 Placeholder</li>
+            </ul>
+        </section>
+
+      </aside>
+
+      <main class="right-column"> 
+         <section class="project-details card">
+             <h4>Client</h4><p>[Client Name Placeholder]</p>
+             <h4>Company</h4><p>[Company Name Placeholder]</p>
+             <h4>Project Type</h4><p>[Type Placeholder]</p>
+             <h4>Year</h4><p>[Year Placeholder]</p>
+             
+             <h3>Project Title Placeholder</h3>
+             <p>Project description placeholder...</p>
+             
+             <a href="#" class="cta-button tertiary">Visit Website &rarr;</a>
+             
+             <div class="project-images">
+                <%# Add placeholder or actual project images %>
+                <img src="/images/project-placeholder.png" alt="Project image 1">
+             </div>
+         </section>
+    </main>
+</div>
 
 <%- include('partials/footer') %>

@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const { sequelize } = require('../server');
+const sequelize = require('../database'); 
 
 class Post extends Model {}
 
@@ -18,8 +18,8 @@ Post.init({
     allowNull: false
   }
 }, {
-  sequelize, 
-  modelName: 'Post', 
+  sequelize,
+  modelName: 'Post',
 });
 
 module.exports = Post;

@@ -1,0 +1,388 @@
+/* public/css/style.css */
+
+/* --- Base Styles & Variables --- */
+:root {
+    /* Color Palette (inspired by the image) */
+    --bg-light: #F7F7F7;       /* Light background for the page */
+    --bg-card: #FFFFFF;       /* White background for cards */
+    --text-dark: #1A1A1A;      /* Very dark text for high contrast */
+    --text-muted: #757575;     /* Gray text for less emphasis */
+    --accent-primary: #7B68EE; /* Medium Slate Blue (adjust as needed) */
+    --accent-secondary: #E0E0E0; /* Light gray for borders/backgrounds */
+    --border-color: #E0E0E0;   /* Border color */
+  
+    /* Fonts */
+    --font-primary: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+    /* Spacing & Radius */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --border-radius: 8px;
+  }
+  
+  /* Basic Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--accent-primary);
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  /* --- General Layout --- */
+  .page-container {
+    /* Can add max-width if needed, but columns control width */
+  }
+  
+  .main-content-area {
+    display: grid;
+    /* Define grid columns - adjust fr units for desired ratio */
+    grid-template-columns: 300px 1fr; /* Example: 300px left, rest for right */
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    max-width: 1200px; /* Max width of the centered content area */
+    margin: 0 auto; /* Center the content area */
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg); /* Space between cards in the left column */
+  }
+  
+  .right-column {
+    /* Styles for the right column */
+  }
+  
+  /* --- Card Styles --- */
+  .card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+  }
+  
+  /* --- Top Icon Navigation --- */
+  .top-icon-nav {
+    background-color: var(--bg-card);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; /* Make nav sticky */
+    top: 0;
+    z-index: 100; /* Ensure it stays on top */
+  }
+  
+  .top-icon-nav ul {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+  
+  .top-icon-nav ul li a {
+    color: var(--text-muted);
+    display: flex; /* Helps vertically align icon if needed */
+    align-items: center;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .top-icon-nav ul li a:hover,
+  .top-icon-nav ul li a:focus {
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+  }
+  
+  .top-icon-nav ul li a svg {
+    width: 22px; /* Adjust icon size */
+    height: 22px;
+  }
+  
+  .hire-me-button-nav {
+    background-color: var(--text-dark);
+    color: var(--bg-card);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: opacity 0.2s ease;
+  }
+  
+  .hire-me-button-nav:hover {
+    opacity: 0.85;
+  }
+  
+  /* --- Left Column Specifics --- */
+  .intro-card .availability {
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #34A853; /* Green color for availability */
+    margin-bottom: var(--spacing-sm);
+  }
+  .intro-card .availability span {
+    display: inline-block;
+    margin-right: var(--spacing-xs);
+  }
+  
+  .intro-card h1 {
+    font-size: 1.8em;
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.2;
+  }
+  
+  .intro-card .role {
+    font-size: 1em;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .intro-card .bio {
+    font-size: 0.95em;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .avatar-container {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--bg-card);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .cta-cv-area {
+    text-align: center; /* Center CV download button */
+    margin-top: var(--spacing-md);
+  }
+  
+  /* --- Call-to-Action Button Styles --- */
+  .cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none; /* Remove default button border */
+  }
+  
+  .cta-button.primary {
+    background-color: var(--accent-primary);
+    color: var(--bg-card);
+  }
+  .cta-button.primary:hover {
+    opacity: 0.9;
+  }
+  
+  .cta-button.secondary {
+    background-color: var(--accent-secondary);
+    color: var(--text-dark);
+  }
+  .cta-button.secondary:hover {
+     background-color: #d0d0d0; /* Slightly darker gray on hover */
+  }
+  
+  .cta-button.tertiary {
+    background-color: transparent;
+    color: var(--accent-primary);
+    padding-left: 0; /* Adjust padding if needed */
+    padding-right: 0;
+  }
+  .cta-button.tertiary:hover {
+     text-decoration: underline;
+  }
+  
+  
+  /* --- List Styles (Projects/Products) --- */
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .list-header h3 {
+    font-size: 1.2em;
+    margin: 0;
+  }
+  
+  .view-all {
+    font-size: 0.9em;
+    color: var(--accent-primary);
+    font-weight: 500;
+  }
+  
+  .projects-list ul li,
+  .products-list ul li {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .projects-list ul li a {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-dark);
+    transition: background-color 0.2s ease;
+  }
+  
+  .projects-list ul li a:hover {
+    background-color: var(--bg-light);
+  }
+  
+  .project-icon {
+    margin-right: var(--spacing-md);
+    /* Add styling for actual icons when available */
+    flex-shrink: 0;
+  }
+  
+  .project-info {
+    flex-grow: 1;
+  }
+  .project-info strong {
+    display: block;
+  }
+  .project-info small {
+    color: var(--text-muted);
+    font-size: 0.85em;
+  }
+  
+  .arrow {
+    margin-left: var(--spacing-md);
+    color: var(--text-muted);
+  }
+  
+  
+  /* --- Right Column Specifics --- */
+  .project-details h4 {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .project-details p {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .project-details h3 {
+    font-size: 1.5em;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .project-details .cta-button {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .project-images img {
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+  }
+  
+  /* --- Footer --- */
+  footer {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    color: var(--text-muted);
+    font-size: 0.9em;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  /* --- Responsive Design (Mobile-Friendly) --- */
+  
+  /* Tablet and smaller */
+  @media (max-width: 992px) {
+    .main-content-area {
+      /* Adjust grid for smaller screens if needed, or wait for mobile */
+      grid-template-columns: 250px 1fr; /* Slightly smaller left column */
+      gap: var(--spacing-md);
+      padding: var(--spacing-md);
+    }
+    .card {
+        padding: var(--spacing-md);
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 768px) {
+    .main-content-area {
+      /* Stack columns */
+      grid-template-columns: 1fr; 
+    }
+  
+    .top-icon-nav {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+  
+    /* Example: Hide text on hire me button on small screens */
+    .hire-me-button-nav {
+        font-size: 0; /* Hide text */
+        padding: var(--spacing-sm);
+    }
+     .hire-me-button-nav::before {
+         content: "Hire"; /* Add short text or use an icon */
+         font-size: 0.9rem; /* Make text visible again */
+     }
+    
+    .left-column {
+        /* Ensure left column comes first visually if grid reverses */
+        order: 1; 
+    }
+    .right-column {
+        order: 2;
+    }
+  
+    .intro-card h1 {
+        font-size: 1.6em;
+    }
+    .action-buttons {
+        flex-direction: column; /* Stack buttons */
+    }
+    .cta-button {
+        width: 100%; /* Make buttons full width */
+    }
+  }

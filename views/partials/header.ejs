@@ -1,30 +1,40 @@
 <!DOCTYPE html>
-<html lang="ro">
-
+<html lang="en"> <%# Changed language to English based on comment request %>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= pageTitle %> | Website Personal
-    </title>
+    <%# Crucial for mobile-friendliness %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    
+    <%# Basic SEO Meta Tags - Customize these! %>
+    <meta name="description" content="Personal website and portfolio for Alexandru Stoica - Software Engineer"> 
+    <meta name="keywords" content="Alexandru Stoica, portfolio, Stoica - Software Engineer, NodeJS, JavaScript">
+    
+    <%# Generates an SEO-friendly title for each page %>
+    <title><%= locals.pageTitle || 'Personal Website' %> | Alexandru Stoica</title> 
+    
     <link rel="stylesheet" href="/css/style.css">
+    <%# Link to icon libraries (e.g., Font Awesome) could go here if you use them %>
 </head>
-
 <body>
-    <header>
-        <h1>Website-ul Meu Personal</h1>
-        <nav>
+    <div class="page-container"> 
+        <nav class="top-icon-nav"> 
             <ul>
-                <li><a href="/">Acasă</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <% if (typeof cvPath !=='undefined' ) { %>
-                    <li><a href="<%= cvPath %>" target="_blank">CV</a></li>
-                    <% } %>
-                        <% if (typeof linkedinProfile !=='undefined' ) { %>
-                            <li><a href="<%= linkedinProfile %>" target="_blank">LinkedIn</a></li>
-                            <% } %>
+                <li><a href="/" aria-label="Home">
+                    Home 
+                </a></li>
+                <li><a href="/#about" aria-label="About Me"> 
+                    About Me
+                </a></li>
+                 <li><a href="/blog" aria-label="Blog/Projects"> 
+                    Blog
+                </a></li>
+                 <li><a href="/contact" aria-label="Contact">
+                    Contact
+                </a></li>
+                <% if (locals.linkedinProfile) { %>
+                   <li><a href="<%= locals.linkedinProfile %>" target="_blank" aria-label="LinkedIn Profile">
+                       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"></svg> 
+                   </a></li>
+                <% } %>
             </ul>
         </nav>
-    </header>
-    <main>

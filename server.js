@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const { Sequelize } = require('sequelize'); // Importă Sequelize
+const sequelize = require('./database')
 
 // Importă rutele
 const indexRoutes = require('./routes/index');
@@ -11,12 +11,6 @@ const blogRoutes = require('./routes/blog');
 // --- Configurare Sequelize ---
 const storagePath = path.join(__dirname, 'data', 'database.sqlite');
 console.log(`Calea către baza de date SQLite: ${storagePath}`);
-
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: storagePath, 
-  logging: false // Dezactivează afișarea query-urilor SQL în consolă (sau true pentru debug)
-});
 
 // --- Testare Conexiune și Sincronizare Modele ---
 async function testConnectionAndSync() {
@@ -55,5 +49,3 @@ app.use('/blog', blogRoutes);
 app.listen(PORT, () => {
   console.log(`Serverul rulează la adresa http://localhost:${PORT}`);
 });
-
-module.exports = { sequelize };

@@ -10,7 +10,9 @@ router.get('/', async (req, res) => {
     });
     const data = {
       pageTitle: 'Blog',
-      posts: posts
+      posts: posts,
+      linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
+      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
     };
     res.render('blog', data);
   } catch (err) {

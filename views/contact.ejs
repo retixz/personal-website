@@ -1,0 +1,18 @@
+<%- include('partials/header') %>
+
+<h2>Contact</h2>
+<p>Mă poți contacta folosind următoarele detalii:</p>
+<ul>
+  <% if (locals.email) { %> <%# Am adăugat locals. %>
+    <li>Email: <a href="mailto:<%= email %>"><%= email %></a></li>
+  <% } %>
+  <% if (locals.phone) { %> <%# Am adăugat locals. %>
+    <li>Telefon: <%= phone %></li>
+  <% } %>
+   <% if (locals.linkedinProfile) { %> <%# Am adăugat locals. %>
+     <%# Acest link nu va apărea momentan, vezi nota de mai jos %>
+    <li><a href="<%= linkedinProfile %>" target="_blank">Profil LinkedIn</a></li>
+  <% } %>
+</ul>
+
+<%- include('partials/footer') %>
