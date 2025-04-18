@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= pageTitle %> | Website Personal
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Website-ul Meu Personal</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Acasă</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <% if (typeof cvPath !=='undefined' ) { %>
+                    <li><a href="<%= cvPath %>" target="_blank">CV</a></li>
+                    <% } %>
+                        <% if (typeof linkedinProfile !=='undefined' ) { %>
+                            <li><a href="<%= linkedinProfile %>" target="_blank">LinkedIn</a></li>
+                            <% } %>
+            </ul>
+        </nav>
+    </header>
+    <main>

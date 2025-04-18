@@ -1,0 +1,25 @@
+<%- include('partials/header') %> <h2>Bun venit!</h2>
+<p>Aceasta este pagina principală a website-ului meu personal.</p>
+<p>Găsești mai multe informații despre mine și parcursul meu profesional explorând link-urile din meniu.</p>
+<%- include('partials/footer') %> ```
+
+* `views/contact.ejs`: Șablonul pentru pagina de contact.
+
+```html
+<%- include('partials/header') %>
+
+<h2>Contact</h2>
+<p>Mă poți contacta folosind următoarele detalii:</p>
+<ul>
+  <% if (typeof email !== 'undefined') { %>
+    <li>Email: <a href="mailto:<%= email %>"><%= email %></a></li>
+  <% } %>
+  <% if (typeof phone !== 'undefined') { %>
+    <li>Telefon: <%= phone %></li>
+  <% } %>
+   <% if (typeof linkedinProfile !== 'undefined') { %>
+    <li><a href="<%= linkedinProfile %>" target="_blank">Profil LinkedIn</a></li>
+  <% } %>
+</ul>
+
+<%- include('partials/footer') %>
