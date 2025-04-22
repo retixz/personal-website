@@ -20,7 +20,12 @@ if (!dbConnectionString) {
 // Initialize Sequelize with the PostgreSQL connection string
 const sequelize = new Sequelize(dbConnectionString, {
   dialect: 'postgres', 
-  logging: false,
+  logging: false, 
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false 
+    }
+  }
 });
-
 module.exports = sequelize;
