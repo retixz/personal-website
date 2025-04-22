@@ -1,12 +1,14 @@
 const { Sequelize } = require('sequelize');
 const path = require('path');
 
-const storagePath = path.join(__dirname, 'data', 'database.sqlite');
+// Use environment variable for production path, fallback to local path
+const storagePath = process.env.SQLITE_STORAGE_PATH || path.join(__dirname, 'data', 'database.sqlite'); 
+console.log(`Using SQLite database at: ${storagePath}`); // Log the path being used
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: storagePath,
-  logging: false // Sau true pentru debug
+  storage: storagePath, // Use the determined path
+  logging: false 
 });
 
 module.exports = sequelize;
