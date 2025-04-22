@@ -1,90 +1,179 @@
 <%- include('partials/header') %>
 
-<div class="main-content-area"> 
+    <div class="main-content-area">
 
-    <aside class="left-column" id="about">
-        <section class="intro-card card">
-            <div class="availability">
-                <span>•</span> Available for work
-            </div>
-            <h1>Alexandru Stoica</h1> 
-            <p class="role">Software Enginieer</p> 
-            <p class="bio">Experienced software engineer specializing in full-stack development. Proven ability in modernizing systems, integrating APIs, and developing secure, scalable backend services used by mases. Committed to continuous learning and contributing to impactful projects.</p> 
-          
-            <div class="action-buttons">
-                <a href="/contact" class="cta-button primary">Hire Me</a>
-                <% if(locals.email) { %>
-                    <a href="mailto:<%= locals.email %>" class="cta-button secondary">Send Email</a> 
-                <% } %>
-            </div>
-            <div class="cta-cv-area">
-                 <% if (locals.cvPath) { %>
-                     <a href="<%= locals.cvPath %>" class="cta-button tertiary" target="_blank">Download my CV</a>
-                 <% } %>
-            </div>
-        </section>
+        <aside class="left-column" id="about">
+            <section class="intro-card card">
+                <div class="availability">
+                    <span>•</span> Available for work
+                </div>
+                <h1>Alexandru Stoica</h1>
+                <p class="role">Software Enginieer</p>
+                <p class="bio">Experienced software engineer specializing in full-stack development. Proven ability in
+                    modernizing systems, integrating APIs, and developing secure, scalable backend services used by
+                    mases. Committed to continuous learning and contributing to impactful projects.</p>
 
-        <section class="projects-list card">
-            <div class="list-header">
-                <h3>Projects</h3>
-                <%# Link to a dedicated projects page or remove %>
-                <a href="/projects" class="view-all">View All &rarr;</a> 
-            </div>
-            <ul>
-                <%# Example Project Item - Replace with dynamic data later (e.g., from blog posts) %>
-                <li>
-                    <a href="/blog/project-1"> <%# Link to a specific post/project %>
-                        <span class="project-icon">[ICON]</span> <%# Placeholder %>
-                        <span class="project-info">
-                            <strong>Project Title 1</strong>
-                            <small>Brief description or type</small> 
-                        </span>
-                         <span class="arrow">&rarr;</span>
-                    </a>
-                 </li>
-                 <li>
-                    <a href="/blog/project-2">
-                        <span class="project-icon">[ICON]</span>
-                         <span class="project-info">
-                            <strong>Project Title 2</strong>
-                            <small>Another description</small> 
-                        </span>
-                        <span class="arrow">&rarr;</span>
-                    </a>
-                 </li>
-            </ul>
-        </section>
-        
-         <section class="products-list card"> 
-             <div class="list-header">
-                <h3>Products</h3>
-                <%# <a href="/products" class="view-all">View All &rarr;</a> %>
-            </div>
-             <ul>
-                 <li>Product 1 Placeholder</li>
-            </ul>
-        </section>
+                <div class="action-buttons">
+                    <a href="/contact" class="cta-button primary">Hire Me</a>
+                    <% if(locals.email) { %>
+                        <a href="mailto:<%= locals.email %>" class="cta-button secondary">Send Email</a>
+                        <% } %>
+                </div>
+                <div class="cta-cv-area">
+                    <% if (locals.cvPath) { %>
+                        <a href="<%= locals.cvPath %>" class="cta-button tertiary" target="_blank">Download my CV</a>
+                        <% } %>
+                </div>
+            </section>
 
-      </aside>
+            <section class="projects-list card">
+                <div class="list-header">
+                    <h3>Projects</h3>
+                    <%# Link to a dedicated projects page or remove %>
+                        <a href="/projects" class="view-all">View All &rarr;</a>
+                </div>
+                <ul>
+                    <%# Example Project Item - Replace with dynamic data later (e.g., from blog posts) %>
+                        <li>
+                            <a href="/blog/project-1">
+                                <%# Link to a specific post/project %>
+                                    <span class="project-icon">[ICON]</span>
+                                    <%# Placeholder %>
+                                        <span class="project-info">
+                                            <strong>Project Title 1</strong>
+                                            <small>Brief description or type</small>
+                                        </span>
+                                        <span class="arrow">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/blog/project-2">
+                                <span class="project-icon">[ICON]</span>
+                                <span class="project-info">
+                                    <strong>Project Title 2</strong>
+                                    <small>Another description</small>
+                                </span>
+                                <span class="arrow">&rarr;</span>
+                            </a>
+                        </li>
+                </ul>
+            </section>
+        </aside>
 
-      <main class="right-column"> 
-         <section class="project-details card">
-             <h4>Client</h4><p>[Client Name Placeholder]</p>
-             <h4>Company</h4><p>[Company Name Placeholder]</p>
-             <h4>Project Type</h4><p>[Type Placeholder]</p>
-             <h4>Year</h4><p>[Year Placeholder]</p>
-             
-             <h3>Project Title Placeholder</h3>
-             <p>Project description placeholder...</p>
-             
-             <a href="#" class="cta-button tertiary">Visit Website &rarr;</a>
-             
-             <div class="project-images">
-                <%# Add placeholder or actual project images %>
-                <img src="/images/project-placeholder.png" alt="Project image 1">
-             </div>
-         </section>
-    </main>
-</div>
+        <main class="right-column">
+            <section class="expertise-section-card card">
 
-<%- include('partials/footer') %>
+                   <%# 2. Icon Cards Section (within right column) %>
+                        <section class="feature-cards-section">
+                            <%# Title for this sub-section (optional) %>
+                                <%# <h4>Core Principles</h4> %>
+                                    <div class="feature-cards-container-column">
+                                        <%# New class for column layout %>
+                                            <div class="feature-card">
+                                                <div class="icon-container style-1"><svg width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M12 2.25C7.02944 2.25 3 6.27944 3 11.25V15.75C3 19.064 5.27766 21.98 8.40788 22.8496C9.08597 23.0486 9.77488 23.1401 10.444 23.1401H10.5C10.818 23.1401 11.14 23.1016 11.4654 23.0254C11.7031 22.9717 11.822 22.9449 12 22.9449C12.178 22.9449 12.2969 22.9717 12.5346 23.0254C12.86 23.1016 13.182 23.1401 13.5 23.1401H13.556C14.2251 23.1401 14.914 23.0486 15.5921 22.8496C18.7223 21.98 21 19.064 21 15.75V11.25C21 6.27944 16.9706 2.25 12 2.25ZM12 3.75C16.1421 3.75 19.5 7.10787 19.5 11.25V15.75C19.5 18.2721 17.7959 20.4081 15.3462 21.2707C14.8314 21.4324 14.2012 21.5151 13.556 21.5151H13.5C13.2841 21.5151 13.0514 21.4977 12.8021 21.4448C12.7057 21.4262 12.613 21.4093 12.5263 21.3943C12.1762 21.3363 12.0267 21.3055 12 21.3055C11.9733 21.3055 11.8238 21.3363 11.4737 21.3943C11.387 21.4093 11.2943 21.4262 11.1979 21.4448C10.9486 21.4977 10.7159 21.5151 10.5 21.5151H10.444C9.79877 21.5151 9.16861 21.4324 8.65382 21.2707C6.20408 20.4081 4.5 18.2721 4.5 15.75V11.25C4.5 7.10787 7.85786 3.75 12 3.75Z" />
+                                                    </svg></div>
+                                                <h4>Secure & Reliable</h4>
+                                                <p>Prioritizing data protection, robust authentication, and fault
+                                                    tolerance.</p>
+                                            </div>
+                                            <div class="feature-card">
+                                                <div class="icon-container style-2"><svg width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                        <path
+                                                            d="M3.75 7.11171C3.75 6.4869 4.2369 6 4.86171 6H19.1383C19.7631 6 20.25 6.4869 20.25 7.11171V8.94113C20.25 9.32098 19.941 9.62991 19.5611 9.62991H4.43886C4.05902 9.62991 3.75 9.32098 3.75 8.94113V7.11171Z" />
+                                                        <path
+                                                            d="M3.75 11.3726C3.75 10.7478 4.2369 10.2609 4.86171 10.2609H19.1383C19.7631 10.2609 20.25 10.7478 20.25 11.3726V13.202C20.25 13.5819 19.941 13.8908 19.5611 13.8908H4.43886C4.05902 13.8908 3.75 13.5819 3.75 13.202V11.3726Z" />
+                                                        <path
+                                                            d="M3.75 15.6334C3.75 15.0086 4.2369 14.5217 4.86171 14.5217H19.1383C19.7631 14.5217 20.25 15.0086 20.25 15.6334V17.4629C20.25 17.8427 19.941 18.1516 19.5611 18.1516H4.43886C4.05902 18.1516 3.75 17.8427 3.75 17.4629V15.6334Z" />
+                                                    </svg></div>
+                                                <h4>Scalable Architecture</h4>
+                                                <p>Designing systems that grow effortlessly with increasing loads.
+                                                </p>
+                                            </div>
+                                            <div class="feature-card">
+                                                <div class="icon-container style-3"><svg width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M14.25 2.74698C14.7148 2.15338 14.5302 1.25 13.8212 1.25H9.13109C8.45956 1.25 7.98143 1.78146 8.03933 2.44916L8.80364 11.75H5.13402C4.39186 11.75 4.01018 12.6252 4.57426 13.1294L12.3243 22.1294C12.7779 22.6393 13.5571 22.4325 13.7428 21.8008L15.9607 12.25H19.866C20.6081 12.25 20.9898 11.3748 20.4257 10.8706L14.25 2.74698ZM9.95301 2.75L13.4737 7.09784C13.7215 7.3954 14.121 7.53155 14.5098 7.4746L15.1964 7.37257L10.3964 14.1226C10.1927 14.3761 9.84877 14.4845 9.52634 14.3774L8.76431 14.125H10.8036L10.0393 13.1992C9.79681 12.8997 9.40319 12.75 9.00428 12.75H6.38097L12.5263 4.6602C12.7201 4.4124 13.0627 4.30167 13.3837 4.40637L14.0469 4.62743L9.95301 2.75Z" />
+                                                    </svg></div>
+                                                <h4>Performance Focus</h4>
+                                                <p>Optimized for speed and efficiency to deliver seamless
+                                                    experiences.</p>
+                                            </div>
+                                    </div>
+                        </section>
+
+                        <%# 3. Quote Block (within right column) %>
+                            <section class="quote-block">
+                                <h2>
+                                    <span class="separator">//</span>
+                                    Development: Turning Coffee into Code
+                                    <span class="separator">—</span>
+                                    then Magic.
+                                </h2>
+                            </section>
+
+                            <%# 4. Existing Expertise Details (within right column) %>
+                                <section class="expertise-details">
+                                    <h3 class="section-title">Core Expertise</h3>
+                                    <div class="expertise-columns">
+                                        <%# Backend Column %>
+                                            <div class="expertise-column backend">
+                                                <h4>Backend Development <span class="subtitle-tag">(Secure &
+                                                        Performant)</span></h4>
+                                                <h5>Building Resilient & Scalable Server-Side Solutions.</h5>
+                                                <p class="column-description">Crafting reliable server-side
+                                                    systems...</p>
+                                                <ol class="expertise-list">
+                                                    <li class="expertise-item">
+                                                        <h6>Architecture & Modernization</h6>
+                                                        <p>Experience in modernizing...</p>
+                                                    </li>
+                                                    <li class="expertise-item">
+                                                        <h6>API & Secure Integrations</h6>
+                                                        <p>Proven ability to develop...</p>
+                                                    </li>
+                                                    <li class="expertise-item">
+                                                        <h6>Data Integrity & Security</h6>
+                                                        <p>Focused on data protection...</p>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                            <%# DevOps Column %>
+                                                <div class="expertise-column devops">
+                                                    <h4>DevOps & Automation <span class="subtitle-tag">(Reliable &
+                                                            Efficient)</span></h4>
+                                                    <h5>Streamlining Deployment & Ensuring Operational Excellence.
+                                                    </h5>
+                                                    <p class="column-description">Automating cloud infrastructure...
+                                                    </p>
+                                                    <ol class="expertise-list">
+                                                        <li class="expertise-item">
+                                                            <h6>Cloud & Automation</h6>
+                                                            <p>Hands-on experience with...</p>
+                                                        </li>
+                                                        <li class="expertise-item">
+                                                            <h6>CI/CD Pipelines</h6>
+                                                            <p>Skilled in implementing...</p>
+                                                        </li>
+                                                        <li class="expertise-item">
+                                                            <h6>System Reliability & Support</h6>
+                                                            <p>Experience providing live...</p>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                    </div>
+                                    <%# End expertise-columns %>
+                                </section>
+                                <%# End expertise-details %>
+
+        </main>
+    </div>
+
+    <%- include('partials/footer') %>
