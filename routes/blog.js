@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
     const processedPosts = posts.map(post => {
       let snippet = '';
       if (post.content) {
-        // Strip HTML tags using a regular expression
         const strippedContent = post.content.replace(/<[^>]*>/g, '');
         // Create snippet (e.g., first 200 chars)
         snippet = strippedContent.substring(0, 200);
@@ -22,8 +21,8 @@ router.get('/', async (req, res) => {
       }
 
       return {
-        ...post.toJSON(), // Include all original post properties
-        snippet: snippet // Add the generated snippet
+        ...post.toJSON(),
+        snippet: snippet
       };
     });
 
@@ -70,7 +69,7 @@ router.get('/:postId', async (req, res) => {
       cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
     };
 
-    res.render('post-detail', data); // Renders views/post-detail.ejs
+    res.render('post-detail', data);
 
   } catch (err) {
     console.error("Eroare la preluarea postării:", err);

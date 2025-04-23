@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database'); 
+const sequelize = require('../database');
 
-class Post extends Model {}
+class Post extends Model { }
 
 Post.init({
   id: {

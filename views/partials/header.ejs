@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%# Use dynamic meta description if provided, else default %>
-    <% if (locals.metaDescription) { %>
-        <meta name="description" content="<%= locals.metaDescription %>">
-    <% } else { %>
-        <meta name="description" content="Personal website and portfolio for Alexandru Stoica - Software Engineer">
-    <% } %>
-    <meta name="keywords" content="Alexandru Stoica, portfolio, Stoica - Software Engineer, NodeJS, JavaScript">
+        <% if (locals.metaDescription) { %>
+            <meta name="description" content="<%= locals.metaDescription %>">
+            <% } else { %>
+                <meta name="description"
+                    content="Personal website and portfolio for Alexandru Stoica - Software Engineer">
+                <% } %>
+                    <meta name="keywords"
+                        content="Alexandru Stoica, portfolio, Stoica - Software Engineer, NodeJS, JavaScript">
 
-    <title>
-        <%= locals.pageTitle || 'Personal Website' %> | Alexandru Stoica
-    </title>
+                    <title>
+                        <%= locals.pageTitle || 'Personal Website' %> | Alexandru Stoica
+                    </title>
 
-    <link rel="icon" href="/images/favico.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/css/style.css">
+                    <link rel="icon" href="/images/favico.svg" type="image/svg+xml">
+                    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body class="<%= locals.currentTheme === 'dark' ? 'dark-mode' : '' %>">

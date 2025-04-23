@@ -8,22 +8,17 @@
     const darkClassName = 'dark-mode';
 
     // --- Theme Colors for Vanta CLOUDS ---
-    // Match hex values (0x...) to your CSS variables
     const vantaCloudColors = {
         light: {
             skyColor: 0x007BFF,       // --bg-light-mode (White sky)
             cloudColor: 0xE9ECEF,     // --accent-subtle-light (Light gray clouds)
-            // cloudShadowColor: 0xDEE2E6, // --border-color-light (Optional subtle shadow)
             sunColor: 0x007BFF,        // --accent-blue (Blue sun)
-            // sunGlareColor: 0x?????? 
             sunlightColor: 0x007BFF    // --accent-blue (Blue sunlight)
         },
         dark: {
             skyColor: 0x0D1117,        // --bg-dark (Dark sky)
             cloudColor: 0x161B22,      // --bg-card (Darker clouds)
-            // cloudShadowColor: 0x000000, // Optional black shadow
             sunColor: 0xBE54CF,        // --accent-purple (Purple sun)
-            // sunGlareColor: 0x??????
             sunlightColor: 0xBE54CF     // --accent-purple (Purple sunlight)
         }
     };
@@ -48,19 +43,15 @@
                 window.vantaEffect.setOptions({
                     skyColor: newOptions.skyColor,
                     cloudColor: newOptions.cloudColor,
-                    // cloudShadowColor: newOptions.cloudShadowColor, // Uncomment if using
                     sunColor: newOptions.sunColor,
-                    // sunGlareColor: newOptions.sunGlareColor, // Uncomment if using
                     sunlightColor: newOptions.sunlightColor
                 });
-                // console.log("Vanta CLOUDS theme updated to:", isDarkMode ? 'dark' : 'light');
             }
         }
     }
 
     // --- Function to apply CSS theme and update toggle ---
     const applyTheme = (theme) => {
-        // Apply CSS class
         if (theme === 'dark') {
             body.classList.add(darkClassName);
         } else {
@@ -93,26 +84,20 @@
                 return 'dark';
             }
         } catch (e) { console.warn("Could not determine system theme preference.", e); }
-        return 'light'; // Default to light
+        return 'light';
     };
 
     // --- Initialize Theme on Load ---
     let currentTheme = getPreference();
     document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax;Secure`;
-    // Apply theme (CSS class and Vanta colors)
     applyTheme(currentTheme);
 
     // --- Event Listener for Toggle Button ---
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            // Determine the new theme
             currentTheme = body.classList.contains(darkClassName) ? 'light' : 'dark';
-
-            // Save the new preference
             savePreference(currentTheme);
-
             applyTheme(currentTheme);
-
         });
     } else {
         console.warn('Theme toggle button with id="theme-toggle" not found.');

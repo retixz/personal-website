@@ -1,4 +1,3 @@
-// server.js
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -8,23 +7,23 @@ const compression = require('compression');
 const helmet = require('helmet');
 const Post = require('./models/Post');
 
-// Importă rutele
+// Import routes
 const indexRoutes = require('./routes/index');
 const blogRoutes = require('./routes/blog');
 
-// --- Testare Conexiune și Sincronizare Modele ---
+// --- Test conexion and sync database ---
 async function testConnectionAndSync() {
   try {
     await sequelize.authenticate();
     console.log('Database connection success.');
-    // Sync DB model
     // 'force: false' means that the tables will not be deleted if they already exists
     await sequelize.sync({ force: false });
-    console.log('Modelele au fost sincronizate cu baza de date.');
+    console.log('The models have been synchronized with the database.');
   } catch (error) {
     console.error('Error on connecting or synchronizing with Database', error);
   }
 }
+
 testConnectionAndSync();
 
 const app = express();
@@ -37,9 +36,9 @@ app.use(
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         "script-src": [
-            "'self'",
-            "cdnjs.cloudflare.com",
-            "cdn.jsdelivr.net"
+          "'self'",
+          "cdnjs.cloudflare.com",
+          "cdn.jsdelivr.net"
 
         ],
       },
@@ -56,10 +55,10 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 app.use(compression());
 
-// --- Rute ---
+// --- Routes ---
 app.use((req, res, next) => {
-    req.db = sequelize;
-    next();
+  req.db = sequelize;
+  next();
 });
 app.use(cookieParser());
 app.use('/', indexRoutes);
@@ -74,7 +73,6 @@ app.get('/sitemap.xml', async (req, res) => {
     let xml = '<?xml version="1.0" encoding="UTF-8"?>';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-    // Helper function to format date as YYYY-MM-DD
     const formatDate = (date) => date.toISOString().split('T')[0];
 
     // 1. Add Static Pages
@@ -120,7 +118,7 @@ app.get('/sitemap.xml', async (req, res) => {
   }
 });
 
-// --- Pornire Server ---
+// --- Start Server ---
 app.listen(PORT, () => {
-  console.log(`Serverul rulează la adresa http://localhost:${PORT}`);
+  console.log(`Server runs on adress: http://localhost:${PORT}`);
 });
