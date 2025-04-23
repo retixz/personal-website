@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   const data = {
-    pageTitle: 'Acasă',
+    pageTitle: 'Home',
     linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
     email: 'r.alexandru.stoica@gmail.com',
     cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
