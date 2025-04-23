@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
     const data = {
       pageTitle: 'Blog',
       posts: processedPosts,
-      currentTheme: req.cookies.themePreference || 'dark',
+      currentTheme: req.cookies.themePreference || 'light',
       linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
       email: 'r.alexandru.stoica@gmail.com',
       cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
@@ -54,7 +54,7 @@ router.get('/:postId', async (req, res) => {
     // Prepare data for the template
     const data = {
       pageTitle: post.title,
-      currentTheme: req.cookies.themePreference || 'dark',
+      currentTheme: req.cookies.themePreference || 'light',
       post: post,
       linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
       email: 'r.alexandru.stoica@gmail.com',
