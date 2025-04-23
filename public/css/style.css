@@ -195,6 +195,7 @@ body.nav-open #hamburger-toggle .hamburger-icon::after { transform: rotate(-45de
 /* ============================================= */
 /* --- Left Column & Content Specifics --- */
 /* ============================================= */
+.intro-card { display:  flex; align-items: center; flex-direction: column;}
 .intro-card .availability { font-size: 0.8em; font-weight: 500; color: var(--link-green-light); margin-bottom: var(--spacing-sm); }
 .intro-card .availability span { display: inline-block; margin-right: var(--spacing-xs); }
 .intro-card h1 { font-size: 2em; margin-bottom: var(--spacing-sm); line-height: 1.2; color: var(--text-dark-mode); font-weight: 700; }
@@ -467,12 +468,12 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
   .expertise-item p { font-size: 0.8em; }
 
   /* Feature cards on mobile */
-   .feature-cards-container-column { gap: var(--spacing-md); }
+   .feature-cards-container-column { gap: var(--spacing-md); display: flex; flex-direction:column; align-items: center;}
    .feature-card { padding: var(--spacing-sm); gap: var(--spacing-sm);}
    .feature-card .icon-container { width: 35px; height: 35px;}
    .feature-card .icon-container svg { width: 18px; height: 18px;}
    .feature-card h4 { font-size: 0.95em;}
-   .feature-card p { font-size: 0.8em;}
+   .feature-card p { font-size: 0.8em; text-align: center;}
   
    /* Quote block on mobile */
    .quote-block { padding: var(--spacing-md) 0; margin: var(--spacing-sm) 0;}
