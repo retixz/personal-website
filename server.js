@@ -10,6 +10,7 @@ const Post = require('./models/Post');
 // Import routes
 const indexRoutes = require('./routes/index');
 const blogRoutes = require('./routes/blog');
+const reviewRoutes = require('./routes/reviews');
 
 // --- Test conexion and sync database ---
 async function testConnectionAndSync() {
@@ -63,6 +64,7 @@ app.use((req, res, next) => {
 app.use(cookieParser());
 app.use('/', indexRoutes);
 app.use('/blog', blogRoutes);
+app.use('/reviews', reviewRoutes);
 
 // Sitemap Route
 app.get('/sitemap.xml', async (req, res) => {

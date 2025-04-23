@@ -723,6 +723,76 @@ main a:hover {
 }
 
 /* ============================================= */
+/* --- Review Form Styling --- */
+/* ============================================= */
+
+.review-form-section .card {
+  padding: var(--spacing-lg); /* Add padding back to the card */
+}
+
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--text-dark-mode);
+}
+
+.form-group input[type="text"],
+.form-group input[type="url"],
+.form-group input[type="email"], /* Added for potential future forms */
+.form-group textarea {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light-mode); /* Background for inputs */
+  color: var(--text-dark-mode);
+  font-family: inherit; /* Use main font */
+  font-size: 1em;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+  resize: vertical; /* Allow vertical resize */
+  min-height: 100px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Focus ring */
+}
+
+/* Style for required indicator */
+.form-group label span {
+  color: #dc3545; /* Red color for asterisk */
+}
+
+/* Honeypot hiding */
+.form-honeypot {
+  position: absolute !important; /* Ensure it's taken out of flow */
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap; /* Prevent line breaks */
+  left: -5000px; /* Move way off screen */
+  top: -5000px;
+}
+
+.review-form-section button[type="submit"] {
+  margin-top: var(--spacing-sm);
+  width: auto; /* Allow button to size naturally */
+  cursor: pointer;
+}
+
+
+/* ============================================= */
 /* --- Blog Post Content Styling --- */
 /* ============================================= */
 
@@ -1069,6 +1139,25 @@ body.dark-mode main a {
 body.dark-mode main a:hover {
   color: var(--accent-purple);
   opacity: 0.85;
+}
+
+body.dark-mode .form-group label {
+  color: var(--text-light);
+}
+
+body.dark-mode .form-group input[type="text"],
+body.dark-mode .form-group input[type="url"],
+body.dark-mode .form-group input[type="email"],
+body.dark-mode .form-group textarea {
+  background-color: #21262d; /* Darker input background */
+  border-color: var(--border-color-dark);
+  color: var(--text-light);
+}
+
+body.dark-mode .form-group input:focus,
+body.dark-mode .form-group textarea:focus {
+  border-color: var(--link-blue-light);
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.25); /* Focus ring for dark mode */
 }
 
 /* Dark mode open mobile nav */

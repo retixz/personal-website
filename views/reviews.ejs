@@ -1,0 +1,120 @@
+<%- include('partials/header') %> <%# Include the standard header %>
+
+<%# Specific container for the reviews page content %>
+<main class="reviews-main main-content-area" style="display: block; max-width: 800px; margin: var(--spacing-lg) auto;"> <%# Centered content area %>
+
+    <h1>Recommendations & Reviews</h1>
+    <p style="margin-bottom: var(--spacing-md);">See what colleagues and collaborators say about working with me, or leave your own recommendation below.</p>
+    <hr style="margin-bottom: var(--spacing-xl);">
+
+    <%# Section to Display Approved Reviews %>
+    <section class="approved-reviews">
+        <h2>What Others Say</h2>
+
+        <% if (reviews && reviews.length > 0) { %>
+            <% reviews.forEach(review => { %>
+                <article class="card review-card" style="margin-bottom: var(--spacing-lg); padding: var(--spacing-lg);">
+                    <blockquote style="margin: 0 0 var(--spacing-md) 0; padding: 0; border: none; background: none; font-style: normal;">
+                        <p style="margin-bottom: var(--spacing-sm); font-style: italic;">"<%- review.content %>"</p>
+                    </blockquote>
+                    <footer style="text-align: right; font-size: 0.9em; color: var(--text-muted-light-mode);">
+                        — <strong><%= review.name %></strong>, <%= review.roleCompany %>
+                        <% if (review.linkedinUrl) { %>
+                            <%# Basic validation to prevent simple JS injection in href %>
+                            <% const safeUrl = review.linkedinUrl.startsWith('http://') || review.linkedinUrl.startsWith('https://') ? review.linkedinUrl : '//' + review.linkedinUrl; %>
+                            <a href="<%= safeUrl %>" target="_blank" rel="noopener noreferrer" title="View LinkedIn Profile" style="margin-left: var(--spacing-sm); text-decoration: none;">🔗</a>
+                        <% } %>
+                    </footer>
+                </article>
+            <% }); %>
+        <% } else { %>
+            <p>No recommendations have been approved yet. Be the first to leave one!</p>
+        <% } %>
+    </section>
+
+    <hr style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+
+    <%# Section for the Submission Form %>
+    <section class="review-form-section">
+        <h2>Leave a Recommendation</h2>
+
+        <%# Display general error summary if errors exist %>
+        <% if (locals.errors && locals.errors.length > 0) { %>
+            <div class="card error-summary" style="background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; padding: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+                <strong style="display: block; margin-bottom: var(--spacing-xs);">Please correct the following errors:</strong>
+                <ul>
+                    <% locals.errors.forEach(error => { %>
+                        <li style="margin-left: var(--spacing-lg);"><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+
+
+        <div class="card">
+            <form action="/reviews/submit" method="POST">
+
+                 <%# Honeypot Field %>
+                 <div class="form-honeypot" aria-hidden="true">
+                     <label for="website_url_dont_fill">Leave blank</label>
+                     <input type="text" id="website_url_dont_fill" name="website_url_dont_fill" tabindex="-1" autocomplete="off">
+                 </div>
+
+                <%# Helper function to find error for a specific field %>
+                <%
+                   const getError = (field) => {
+                       if (!locals.errors) return null;
+                       return locals.errors.find(e => e.path === field);
+                   }
+                %>
+
+                <div class="form-group">
+                    <label for="name">Your Name <span style="color: red;">*</span></label>
+                    <%# Set value from oldData if available %>
+                    <input type="text" id="name" name="name" required value="<%= locals.oldData && locals.oldData.name ? locals.oldData.name : '' %>">
+                    <%# Display specific error for 'name' %>
+                    <% const nameError = getError('name'); %>
+                    <% if (nameError) { %>
+                        <span class="error-message" style="color: #721c24; font-size: 0.85em; display: block; margin-top: var(--spacing-xs);"><%= nameError.msg %></span>
+                    <% } %>
+                </div>
+
+                <div class="form-group">
+                    <label for="roleCompany">Your Role / Company <span style="color: red;">*</span></label>
+                    <input type="text" id="roleCompany" name="roleCompany" required placeholder="e.g., Project Manager at ExampleCorp" value="<%= locals.oldData && locals.oldData.roleCompany ? locals.oldData.roleCompany : '' %>">
+                    <% const roleError = getError('roleCompany'); %>
+                    <% if (roleError) { %>
+                        <span class="error-message" style="color: #721c24; font-size: 0.85em; display: block; margin-top: var(--spacing-xs);"><%= roleError.msg %></span>
+                    <% } %>
+                </div>
+
+                <div class="form-group">
+                    <label for="linkedinUrl">LinkedIn Profile URL (Optional)</label>
+                    <input type="url" id="linkedinUrl" name="linkedinUrl" placeholder="https://linkedin.com/in/yourprofile" value="<%= locals.oldData && locals.oldData.linkedinUrl ? locals.oldData.linkedinUrl : '' %>">
+                    <% const linkedinError = getError('linkedinUrl'); %>
+                    <% if (linkedinError) { %>
+                        <span class="error-message" style="color: #721c24; font-size: 0.85em; display: block; margin-top: var(--spacing-xs);"><%= linkedinError.msg %></span>
+                    <% } %>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Recommendation <span style="color: red;">*</span></label>
+                    <%# Set textarea content from oldData %>
+                    <textarea id="content" name="content" required rows="6"><%= locals.oldData && locals.oldData.content ? locals.oldData.content : '' %></textarea>
+                    <% const contentError = getError('content'); %>
+                    <% if (contentError) { %>
+                        <span class="error-message" style="color: #721c24; font-size: 0.85em; display: block; margin-top: var(--spacing-xs);"><%= contentError.msg %></span>
+                    <% } %>
+                </div>
+
+                <%# TODO (Optional): Add reCAPTCHA element here %>
+
+                <button type="submit" class="cta-button primary">Submit Recommendation</button>
+
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<%- include('partials/footer') %> <%# Include the standard footer %>
