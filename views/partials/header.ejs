@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Personal website and portfolio for Alexandru Stoica - Software Engineer">
+    <%# Use dynamic meta description if provided, else default %>
+    <% if (locals.metaDescription) { %>
+        <meta name="description" content="<%= locals.metaDescription %>">
+    <% } else { %>
+        <meta name="description" content="Personal website and portfolio for Alexandru Stoica - Software Engineer">
+    <% } %>
     <meta name="keywords" content="Alexandru Stoica, portfolio, Stoica - Software Engineer, NodeJS, JavaScript">
 
     <title>

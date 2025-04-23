@@ -44,18 +44,27 @@ router.get('/', async (req, res) => {
 router.get('/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
-    const post = await Post.findByPk(postId); 
+    const post = await Post.findByPk(postId);
 
-    // If post not found, send a 404 response
     if (!post) {
-      return res.status(404).send('Post not found.');
+      return res.status(404).send('Postarea nu a fost găsită.');
+    }
+
+    let metaDescription = 'Read this blog post by Alexandru Stoica.';
+    if (post.content) {
+      const strippedContent = post.content.replace(/<[^>]*>/g, '');
+      metaDescription = strippedContent.substring(0, 160);
+      if (strippedContent.length > 160) {
+        metaDescription += '...';
+      }
     }
 
     // Prepare data for the template
     const data = {
       pageTitle: post.title,
-      currentTheme: req.cookies.themePreference || 'light',
       post: post,
+      metaDescription: metaDescription,
+      currentTheme: req.cookies.themePreference || 'light',
       linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
       email: 'r.alexandru.stoica@gmail.com',
       cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
