@@ -1,4 +1,3 @@
-// routes/blog.js
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
@@ -46,34 +45,41 @@ router.get('/:postId', async (req, res) => {
     const post = await Post.findByPk(postId);
 
     if (!post) {
-      return res.status(404).send('Postarea nu a fost găsită.');
+      return res.status(404).send('Post not found.');
     }
+
+    const baseUrl = process.env.BASE_URL || `http://${req.headers.host}`;
+    const postUrl = `${baseUrl}/blog/${post.id}`;
+
+    // URL Encode the post URL for the share link parameter
+    const encodedPostUrl = encodeURIComponent(postUrl);
 
     let metaDescription = 'Read this blog post by Alexandru Stoica.';
     if (post.content) {
       const strippedContent = post.content.replace(/<[^>]*>/g, '');
       metaDescription = strippedContent.substring(0, 160);
-      if (strippedContent.length > 160) {
-        metaDescription += '...';
-      }
+      if (strippedContent.length > 160) metaDescription += '...';
     }
 
-    // Prepare data for the template
     const data = {
       pageTitle: post.title,
       post: post,
       metaDescription: metaDescription,
+      datePublished: post.createdAt,
+      dateModified: post.updatedAt,
       currentTheme: req.cookies.themePreference || 'light',
       linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
       email: 'r.alexandru.stoica@gmail.com',
-      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
+      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
+      postUrl: postUrl,
+      encodedPostUrl: encodedPostUrl
     };
 
     res.render('post-detail', data);
 
   } catch (err) {
-    console.error("Eroare la preluarea postării:", err);
-    res.status(500).send("Eroare server la încărcarea postării.");
+    console.error("Error fetching post:", err);
+    res.status(500).send("Server error loading post.");
   }
 });
 
