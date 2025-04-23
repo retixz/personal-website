@@ -43,6 +43,19 @@
 /* Basic Reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Initially hide the main page container when JS is loading */
+html.js-loading .page-container {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out; /* Optional: short fade-in transition */
+}
+
+/* Style for when the page is loaded and ready to show */
+html.js-loaded .page-container {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* --- Default Styles (Light Theme) --- */
 body {
   font-family: var(--font-primary);

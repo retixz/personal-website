@@ -1,11 +1,11 @@
 // public/js/theme.js
 
-(function() {
+(function () {
     // --- Constants ---
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const themeKey = 'themePreference'; 
-    const darkClassName = 'dark-mode';  
+    const themeKey = 'themePreference';
+    const darkClassName = 'dark-mode';
 
     // --- Theme Colors for Vanta CLOUDS ---
     // Match hex values (0x...) to your CSS variables
@@ -29,8 +29,8 @@
     };
 
     // --- Icons/Text for Toggle Button ---
-    const lightIcon = '☀️'; 
-    const darkIcon = '🌙';  
+    const lightIcon = '☀️';
+    const darkIcon = '🌙';
 
     // --- Function to update Vanta CLOUDS colors ---
     window.updateVantaTheme = () => {
@@ -38,22 +38,22 @@
             const isDarkMode = body.classList.contains(darkClassName);
             // Get the correct set of colors based on current theme
             const newOptions = isDarkMode ? vantaCloudColors.dark : vantaCloudColors.light;
-            
+
             // Check if update is needed (only checking main colors)
-            if (window.vantaEffect.options.skyColor !== newOptions.skyColor || 
+            if (window.vantaEffect.options.skyColor !== newOptions.skyColor ||
                 window.vantaEffect.options.cloudColor !== newOptions.cloudColor ||
                 window.vantaEffect.options.sunColor !== newOptions.sunColor) {
-                
+
                 // Update Vanta CLOUDS colors
                 window.vantaEffect.setOptions({
-                     skyColor: newOptions.skyColor,
-                     cloudColor: newOptions.cloudColor,
-                     // cloudShadowColor: newOptions.cloudShadowColor, // Uncomment if using
-                     sunColor: newOptions.sunColor,
-                     // sunGlareColor: newOptions.sunGlareColor, // Uncomment if using
-                     sunlightColor: newOptions.sunlightColor
+                    skyColor: newOptions.skyColor,
+                    cloudColor: newOptions.cloudColor,
+                    // cloudShadowColor: newOptions.cloudShadowColor, // Uncomment if using
+                    sunColor: newOptions.sunColor,
+                    // sunGlareColor: newOptions.sunGlareColor, // Uncomment if using
+                    sunlightColor: newOptions.sunlightColor
                 });
-                 // console.log("Vanta CLOUDS theme updated to:", isDarkMode ? 'dark' : 'light');
+                // console.log("Vanta CLOUDS theme updated to:", isDarkMode ? 'dark' : 'light');
             }
         }
     }
@@ -66,7 +66,7 @@
         } else {
             body.classList.remove(darkClassName);
         }
-        
+
         // Update toggle button appearance
         if (themeToggle) {
             const isDarkMode = (theme === 'dark');
@@ -75,12 +75,13 @@
         }
 
         // Update Vanta colors AFTER changing the body class
-        window.updateVantaTheme(); 
+        window.updateVantaTheme();
     };
 
     // --- Function to save preference ---
     const savePreference = (theme) => {
-        localStorage.setItem(themeKey, theme);
+        localStorage.setItem(themeKey, currentTheme);
+        document.cookie = `<span class="math-inline">\{themeKey\}\=</span>{currentTheme};path=/;max-age=31536000;SameSite=Lax`;
     };
 
     // --- Function to get preference ---
@@ -98,14 +99,14 @@
     // --- Initialize Theme on Load ---
     let currentTheme = getPreference();
     // Apply theme (CSS class and Vanta colors)
-    applyTheme(currentTheme); 
+    applyTheme(currentTheme);
 
     // --- Event Listener for Toggle Button ---
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             // Determine the new theme
             currentTheme = body.classList.contains(darkClassName) ? 'light' : 'dark';
-            
+
             // Apply the new theme visually (CSS class and Vanta colors)
             applyTheme(currentTheme);
 
@@ -114,6 +115,5 @@
         });
     } else {
         console.warn('Theme toggle button with id="theme-toggle" not found.');
-    }
-
+    };
 })();

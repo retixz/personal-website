@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<main class="post-detail-main main-content-area" style="display: block; max-width: 800px; margin: var(--spacing-lg) auto;">
+
+    <% if (post) { %>
+        <article class="post-full">
+            <h1><%= post.title %></h1>
+
+            <% if (post.createdAt) { %>
+                <p class="post-meta" style="font-size: 0.85em; color: var(--text-muted-light-mode); margin-bottom: var(--spacing-lg); border-bottom: 1px solid var(--border-color-light); padding-bottom: var(--spacing-md);">
+                    Published on <%= post.createdAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                </p>
+            <% } %>
+
+            <div class="post-content" style="line-height: 1.7; margin-top: var(--spacing-lg);">
+                <%- post.content %>
+            </div>
+
+             <hr style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">
+
+             <%# Back link %>
+            <a href="/blog" class="cta-button tertiary" style="margin-top: var(--spacing-lg);">&larr; Back to Blog List</a>
+
+        </article>
+    <% } else { %>
+        <%# This part should ideally not be reached if the route handles 404 correctly %>
+        <p>Post not found.</p>
+         <a href="/blog">&larr; Back to Blog List</a>
+    <% } %>
+
+</main>
+
+<%- include('partials/footer') %>

@@ -1,10 +1,11 @@
 // routes/index.js
 const express = require('express');
-const router = express.Router(); 
+const router = express.Router();
 
 router.get('/', (req, res) => {
   const data = {
     pageTitle: 'Home',
+    currentTheme: req.cookies.themePreference || 'dark',
     linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
     email: 'r.alexandru.stoica@gmail.com',
     cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
@@ -14,9 +15,10 @@ router.get('/', (req, res) => {
 
 router.get('/contact', (req, res) => {
   const data = {
-    pageTitle: 'Contact',
+    pageTitle: 'Contact Me',
+    currentTheme: req.cookies.themePreference || 'dark',
     email: 'r.alexandru.stoica@gmail.com',
-    phone: '0733 597 787',
+    phone: '+40 0733 597 787',
     linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
     cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
   };

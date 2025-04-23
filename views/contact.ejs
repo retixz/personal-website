@@ -1,18 +1,72 @@
-<%- include('partials/header') %>
+<%- include('partials/header') %> <%# Include the standard header %>
 
-<h2>Contact</h2>
-<p>Mă poți contacta folosind următoarele detalii:</p>
-<ul>
-  <% if (locals.email) { %> <%# Am adăugat locals. %>
-    <li>Email: <a href="mailto:<%= email %>"><%= email %></a></li>
-  <% } %>
-  <% if (locals.phone) { %> <%# Am adăugat locals. %>
-    <li>Telefon: <%= phone %></li>
-  <% } %>
-   <% if (locals.linkedinProfile) { %> <%# Am adăugat locals. %>
-     <%# Acest link nu va apărea momentan, vezi nota de mai jos %>
-    <li><a href="<%= linkedinProfile %>" target="_blank">Profil LinkedIn</a></li>
-  <% } %>
-</ul>
+<%# Specific container for the contact page content %>
+<main class="contact-main main-content-area" style="display: block; max-width: 800px; margin: var(--spacing-lg) auto;"> <%# Centered content area %>
 
-<%- include('partials/footer') %>
+    <h1>Contact Me</h1>
+    <hr style="margin-bottom: var(--spacing-xl);">
+
+    <p style="margin-bottom: var(--spacing-lg);">
+        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out using the methods below.
+    </p>
+
+    <div class="contact-details card" style="padding: var(--spacing-lg);"> <%# Use card style for grouping %>
+
+        <% if (locals.email) { %>
+        <p style="margin-bottom: var(--spacing-md);">
+            <strong>Email:</strong>
+            <a href="mailto:<%= locals.email %>"><%= locals.email %></a>
+        </p>
+        <% } %>
+
+        <%# Optional: Display phone number if you want it public %>
+        <% if (locals.phone) { %>
+            <p style="margin-bottom: var(--spacing-md);">
+                <strong>Phone:</strong> <%= locals.phone %>
+            </p>
+        <% } %>
+
+
+        <% if (locals.linkedinProfile) { %>
+        <p style="margin-bottom: var(--spacing-md);">
+            <strong>LinkedIn:</strong>
+            <a href="<%= locals.linkedinProfile %>" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+        </p>
+        <% } %>
+
+         <% if (locals.cvPath) { %>
+            <p style="margin-top: var(--spacing-lg);">
+                You can also view or download my CV:
+                <a href="<%= locals.cvPath %>" class="cta-button tertiary" target="_blank" style="margin-left: var(--spacing-sm);">View CV</a>
+            </p>
+        <% } %>
+
+    </div>
+
+    <%# Optional: Add a simple contact form structure later if needed %>
+    <%# Example: %>
+    <%#
+    <section class="contact-form-section card" style="margin-top: var(--spacing-xl); padding: var(--spacing-lg);">
+        <h2>Send a Message</h2>
+        <form action="/send-message" method="POST"> <!- Needs backend route ->
+            <div style="margin-bottom: var(--spacing-md);">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required style="width: 100%; padding: var(--spacing-sm);">
+            </div>
+            <div style="margin-bottom: var(--spacing-md);">
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: var(--spacing-sm);">
+            </div>
+            <div style="margin-bottom: var(--spacing-md);">
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="5" required style="width: 100%; padding: var(--spacing-sm);"></textarea>
+            </div>
+            <button type="submit" class="cta-button primary">Send</button>
+        </form>
+    </section>
+    %>
+
+
+</main>
+
+<%- include('partials/footer') %> <%# Include the standard footer %>
