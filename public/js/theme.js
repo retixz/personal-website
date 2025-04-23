@@ -6,6 +6,9 @@
     const body = document.body;
     const themeKey = 'themePreference';
     const darkClassName = 'dark-mode';
+    // --- Get references to Prism theme links ---
+    const prismLightThemeLink = document.getElementById('prism-light-theme');
+    const prismDarkThemeLink = document.getElementById('prism-dark-theme');
 
     // --- Theme Colors for Vanta CLOUDS ---
     const vantaCloudColors = {
@@ -50,6 +53,22 @@
         }
     }
 
+    // --- Function to update Prism theme ---
+    const updatePrismTheme = (theme) => {
+        if (!prismLightThemeLink || !prismDarkThemeLink) {
+            console.warn("Prism theme links not found.");
+            return;
+        }
+        if (theme === 'dark') {
+            prismDarkThemeLink.disabled = true;  // Enable dark theme CSS
+            prismLightThemeLink.disabled = false; // Disable light theme CSS
+        } else {
+            prismLightThemeLink.disabled = true; // Enable light theme CSS
+            prismDarkThemeLink.disabled = false;  // Disable dark theme CSS
+        }
+        console.log(`Prism theme set to: ${theme}`);
+    };
+
     // --- Function to apply CSS theme and update toggle ---
     const applyTheme = (theme) => {
         if (theme === 'dark') {
@@ -64,6 +83,8 @@
             themeToggle.innerHTML = isDarkMode ? darkIcon : lightIcon;
             themeToggle.setAttribute('aria-label', isDarkMode ? 'Switch to light theme' : 'Switch to dark theme');
         }
+
+        updatePrismTheme(theme);
 
         // Update Vanta colors AFTER changing the body class
         window.updateVantaTheme();
@@ -91,12 +112,14 @@
     let currentTheme = getPreference();
     document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax;Secure`;
     applyTheme(currentTheme);
+    updatePrismTheme(currentTheme);
 
     // --- Event Listener for Toggle Button ---
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             currentTheme = body.classList.contains(darkClassName) ? 'light' : 'dark';
             savePreference(currentTheme);
+            updatePrismTheme(currentTheme);
             applyTheme(currentTheme);
         });
     } else {

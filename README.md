@@ -128,4 +128,4 @@ This application is designed to be deployed on platforms like Render (as indicat
 
 ## License
 
-(Suggest adding a license, e.g., MIT)
+MIT License

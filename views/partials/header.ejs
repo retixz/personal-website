@@ -21,6 +21,16 @@
 
                     <link rel="icon" href="/images/favico.svg" type="image/svg+xml">
                     <link rel="stylesheet" href="/css/style.css">
+                    <link id="prism-light-theme" rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+                        referrerpolicy="no-referrer" <%=locals.currentTheme==='dark' ? 'disabled' : '' %>
+                    <%# Initially disable if dark %>
+                        />
+                        <link id="prism-dark-theme" rel="stylesheet"
+                            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+                            referrerpolicy="no-referrer" <%=locals.currentTheme==='light' ? 'disabled' : '' %>
+                        <%# Initially disable if light %>
+                            />
 </head>
 
 <body class="<%= locals.currentTheme === 'dark' ? 'dark-mode' : '' %>">

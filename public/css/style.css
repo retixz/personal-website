@@ -722,6 +722,131 @@ main a:hover {
   opacity: 0.85;
 }
 
+/* ============================================= */
+/* --- Blog Post Content Styling --- */
+/* ============================================= */
+
+.post-content {
+  line-height: 1.7; /* Improve readability */
+  font-size: 1.05em; /* Slightly larger font for reading */
+}
+
+/* Spacing for elements within the post */
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content p,
+.post-content ul,
+.post-content ol,
+.post-content blockquote,
+.post-content pre,
+.post-content img {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.post-content h2 { font-size: 1.8em; padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--accent-subtle-light); }
+.post-content h3 { font-size: 1.5em; }
+.post-content h4 { font-size: 1.2em; }
+
+/* Links within post content */
+.post-content a {
+  color: var(--accent-blue); /* Or maybe link-green-light? */
+  text-decoration: underline;
+}
+.post-content a:hover {
+  opacity: 0.8;
+}
+
+/* Styling for Images */
+.post-content img {
+  max-width: 100%; /* Ensure images scale down */
+  height: auto;    /* Maintain aspect ratio */
+  display: block;  /* Prevent extra space below image */
+  margin-left: auto; /* Center images (optional) */
+  margin-right: auto;/* Center images (optional) */
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+/* Styling for Blockquotes */
+.post-content blockquote {
+  margin-left: var(--spacing-md);
+  padding: var(--spacing-md);
+  padding-left: var(--spacing-lg);
+  border-left: 4px solid var(--accent-blue); /* Accent border */
+  background-color: var(--accent-subtle-light); /* Subtle background */
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-style: italic;
+  color: var(--text-muted-light-mode);
+}
+.post-content blockquote footer {
+  margin-top: var(--spacing-sm);
+  font-style: normal;
+  font-size: 0.9em;
+}
+.post-content blockquote cite {
+  font-weight: 500;
+}
+
+/* Styling for Code Blocks */
+.post-content pre {
+  /* background-color: #f0f0f0; /* Light grey background */
+  /* border: 1px solid var(--border-color-light); */
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  overflow-x: auto; /* Allow horizontal scrolling for long lines */
+  font-size: 0.9em;
+}
+.post-content pre code {
+  font-family: 'Courier New', Courier, monospace; /* Monospace font */
+  /* background-color: transparent; /* Code tag inside pre shouldn't have its own bg */
+  /* padding: 0; /* Reset padding */
+  /* border-radius: 0; */
+  /* border: none; */
+}
+
+/* Styling for Inline Code */
+.post-content code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #e7e7e7; /* Slightly different grey */
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #333;
+}
+
+/* --- Dark Mode Overrides for Post Content --- */
+
+body.dark-mode .post-content a {
+  color: var(--link-blue-light); /* Adjust link color for dark mode */
+}
+
+body.dark-mode .post-content blockquote {
+  border-left-color: var(--accent-purple);
+  background-color: var(--accent-subtle);
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .post-content pre {
+  /* background-color: #1e1e1e; /* Darker background for code blocks */
+  /* border-color: var(--border-color-dark); */
+  /* color: #d4d4d4; /* Lighter text for code */
+}
+
+body.dark-mode .post-content code {
+  /* background-color: var(--accent-subtle); */
+  /* color: #cda; Example: Light green/yellowish text for inline code */
+}
+
+body.dark-mode .post-content h2 {
+   border-bottom-color: var(--border-color-dark);
+}
+
+body.dark-mode .post-content img {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+}
+
 
 /* ============================================= */
 /* --- Dark Mode Styles --- */
