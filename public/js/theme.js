@@ -81,7 +81,7 @@
     // --- Function to save preference ---
     const savePreference = (theme) => {
         localStorage.setItem(themeKey, currentTheme);
-        document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax`;
+        document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax;Secure`;
     };
 
     // --- Function to get preference ---
@@ -98,7 +98,7 @@
 
     // --- Initialize Theme on Load ---
     let currentTheme = getPreference();
-    document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax`;
+    document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax;Secure`;
     // Apply theme (CSS class and Vanta colors)
     applyTheme(currentTheme);
 
