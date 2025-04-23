@@ -1,6 +1,6 @@
 # Alexandru Stoica - Personal Website & Blog
 
-This repository contains the source code for the personal website and blog of Alexandru Stoica, Software Engineer. The site serves as a portfolio, blog platform, and contact point.
+This repository contains the source code for the personal website and blog of Alexandru Stoica, Software Engineer. The site serves as a portfolio, blog platform, recommendation display, and contact point.
 
 **Live Demo:** [https://www.alexandrustoica.dev/](https://www.alexandrustoica.dev/)
 
@@ -16,17 +16,26 @@ This project leverages a combination of modern web technologies chosen for flexi
     * Vanilla JavaScript for client-side interactions (navigation, theme switching).
     * CSS3 with Custom Properties (Variables) for flexible styling and theming.
     * Particles.js for a lightweight, theme-aware animated background.
+    * Prism.js for client-side syntax highlighting in blog posts.
 * **Environment:** `dotenv` for managing environment variables.
-* **Security Middleware:** `helmet`, `cookie-parser`.
+* **Security/Validation Middleware:** `helmet`, `cookie-parser`, `express-rate-limit`, `express-validator`.
 
 ## Features
 
 * **Responsive Design:** Mobile-first approach ensuring usability across various screen sizes.
-* **Dynamic Light/Dark Theme:** User preference is detected, applied instantly server-side (via Cookies) to prevent flashing, saved in `localStorage`, and can be toggled client-side.
+* **Dynamic Light/Dark Theme:** User preference is detected, applied instantly server-side (via Cookies) to prevent flashing, saved in `localStorage`, and can be toggled client-side. Prism.js theme also adapts automatically.
 * **Blog Platform:**
     * Dynamically lists blog posts fetched from the database.
     * Displays individual blog posts with full content.
+    * Supports formatted content including code blocks (with Prism.js syntax highlighting), images, quotes, etc.
     * Uses Sequelize models for data structure.
+* **Recommendations/Reviews System:**
+    * Displays approved recommendations on a dedicated page.
+    * Allows users to submit new recommendations via a form.
+    * Submissions are saved with a `pending` status for manual moderation.
+    * Includes backend validation (`express-validator`), rate limiting (`express-rate-limit`), and a honeypot field for spam prevention.
+    * Dedicated "Thank You" page after submission.
+    * *(Note: Email notification for pending reviews is planned but not included in this description).*
 * **Animated Background:** Uses `particles.js` initialized with theme-appropriate colors.
 * **SEO Enhancements:** Includes dynamic page titles, per-post meta descriptions, JSON-LD schema markup (Person & BlogPosting), a dynamic `sitemap.xml` route, and `robots.txt`.
 * **Security Measures:** Implements `helmet` for security headers, secure flags for cookies, environment variables for credentials, and relies on Sequelize's protection against SQL injection.
@@ -40,11 +49,11 @@ The project follows a standard MVC-like pattern:
 * `/`: Contains main configuration files (`package.json`, `.gitignore`, `.env` template).
 * `server.js`: The main application entry point, sets up Express, middleware, and routes.
 * `database.js`: Configures the Sequelize database connection (PostgreSQL/SQLite).
-* `/routes`: Contains Express route handlers for different sections (e.g., `index.js`, `blog.js`).
-* `/models`: Defines Sequelize data models (e.g., `Post.js`).
+* `/routes`: Contains Express route handlers (e.g., `index.js`, `blog.js`, `reviews.js`).
+* `/models`: Defines Sequelize data models (e.g., `Post.js`, `Review.js`).
 * `/views`: Contains EJS templates, including:
     * `/partials`: Reusable template fragments (`header.ejs`, `footer.ejs`).
-    * Page templates (`index.ejs`, `blog.ejs`, `post-detail.ejs`, `contact.ejs`).
+    * Page templates (`index.ejs`, `blog.ejs`, `post-detail.ejs`, `contact.ejs`, `reviews.ejs`, `review-thank-you.ejs`).
 * `/public`: Contains static assets served directly to the client:
     * `/css`: Stylesheets (`style.css`).
     * `/js`: Client-side JavaScript (`theme.js`, `nav.js`, `particles-init.js`).
@@ -56,31 +65,31 @@ The project follows a standard MVC-like pattern:
 
 ### SEO
 
-* **Dynamic Metadata:** Page titles and meta descriptions (for blog posts) are generated dynamically based on content for better search engine indexing.
-* **Structured Data:** JSON-LD schema for `Person` (homepage) and `BlogPosting` (blog posts) provides rich context to search engines.
-* **Crawling & Indexing:** A dynamic `/sitemap.xml` route lists all relevant pages (including blog posts fetched from the DB), and `robots.txt` guides crawlers.
+* **Dynamic Metadata:** Page titles and meta descriptions (for blog posts) are generated dynamically based on content.
+* **Structured Data:** JSON-LD schema for `Person` (homepage) and `BlogPosting` (blog posts).
+* **Crawling & Indexing:** A dynamic `/sitemap.xml` route lists all relevant pages (including blog posts), and `robots.txt` guides crawlers.
 
 ### Performance
 
-* **Theme Flash Prevention:** Uses a server-side cookie approach combined with careful class application on the initial HTML response to prevent content flashes when switching between light/dark themes.
-* **Optimized Script Loading:** Client-side JavaScript is loaded at the end of the `<body>` to avoid render-blocking
-* **Efficient Background:** Switched from Vanta.js to `particles.js` for a more lightweight animated background solution.
-* **Server-Side:** Compression middleware (`compression`) and Cache-Control headers for static assets (via `express.static` options) are recommended additions. Database queries are kept simple, with pagination suggested for blog growth.
+* **Theme Flash Prevention:** Uses a server-side cookie approach with class applied directly to `<html>` on initial response. Content visibility is managed via CSS/JS to prevent flashes.
+* **Optimized Script Loading:** Client-side JavaScript loaded non-blockingly at the end of the `<body>`.
+* **Efficient Background:** Uses `particles.js` (theme-aware) instead of heavier alternatives.
+* **Server-Side:** Recommendations include adding HTTP compression (`compression`) and static asset caching (`express.static` options). Blog pagination is advised for future scaling.
 
 ### Security
 
-* **HTTP Headers:** `helmet` middleware is used to set various security-related HTTP headers (CSP, X-Frame-Options, etc.). The Content Security Policy is configured to allow necessary external scripts (CDNs) while maintaining security.
-* **Cookie Security:** The theme preference cookie uses `SameSite=Lax` and the `Secure` flag (for HTTPS).
-* **Credentials:** Database credentials are kept out of the codebase using environment variables (`.env` file loaded via `dotenv`). Ensure `.env` is in `.gitignore`.
+* **HTTP Headers:** `helmet` middleware sets various security headers. Content Security Policy is configured via Helmet to allow required CDNs (Prism.js).
+* **Cookie Security:** Theme cookie uses `SameSite=Lax` and `Secure` flags.
+* **Credentials:** Database credentials managed via environment variables (`.env`).
+* **Submission Security:** Review submission uses CSRF protection (implicitly via standard form POST, consider adding explicit CSRF tokens for higher security), rate limiting (`express-rate-limit`), a honeypot field, and server-side validation/sanitization (`express-validator`).
 * **Dependencies:** Regular checks using `npm audit` are recommended.
-* **Data Handling:** Sequelize helps prevent SQL injection. Input validation and output sanitization are crucial if user input features are added.
 
 ### Code Clarity & Maintainability
 
-* **Modular Structure:** Clear separation of concerns between routes, models, views, and static assets.
-* **Theming:** Extensive use of CSS Custom Properties (Variables) makes theme management (light/dark) clean and maintainable.
-* **Code Reusability:** EJS partials are used for common elements like the header and footer.
-* **Readability:** Consistent naming and structure are aimed for. Linters/formatters like ESLint/Prettier are recommended.
+* **Modular Structure:** Clear separation into routes, models, views.
+* **Theming:** Extensive use of CSS Custom Properties (Variables) for easy light/dark theme management, including dynamic Prism.js theme switching.
+* **Code Reusability:** EJS partials for header/footer.
+* **Readability:** Use of linters/formatters like ESLint/Prettier is recommended.
 
 ## Setup & Running Locally
 
@@ -94,37 +103,41 @@ The project follows a standard MVC-like pattern:
     npm install
     ```
 3.  **Set up environment variables:**
-    * Create a `.env` file in the project root.
+    * Create a `.env` file in the project root (copy from `.env.example` if provided, or create manually).
     * Add your database connection string:
         ```dotenv
-        # Option 1: Connect to Supabase/PostgreSQL (replace with your actual URI)
+        # For PostgreSQL/Supabase (URL-encode password!)
         DATABASE_URL=postgresql://postgres:[YOUR-ENCODED-PASSWORD]@[YOUR_SUPABASE_HOST]:5432/postgres
 
-        # Option 2: If DATABASE_URL is not set, the app falls back to SQLite (database.js)
-        # No DATABASE_URL needed if you only want to use the SQLite fallback locally.
+        # Base URL for sitemap generation
+        BASE_URL=http://localhost:3000 # Change for production
 
-        # Add your website's base URL (used for sitemap)
-        BASE_URL=http://localhost:3000
+        # Optional: Email credentials (if adding notifications later)
+        # EMAIL_HOST=...
+        # EMAIL_PORT=...
+        # EMAIL_SECURE=...
+        # EMAIL_USER=...
+        # EMAIL_PASS=...
+        # ADMIN_EMAIL=...
+        # EMAIL_FROM=...
         ```
-    * *(Remember to URL-encode your password in the `DATABASE_URL`)*
 4.  **Database Setup:**
-    * The application uses `sequelize.sync({ force: false })` on startup. This will automatically create the `Posts` table in your configured database (SQLite or PostgreSQL) if it doesn't exist, based on the `models/Post.js` definition.
-    * For production, managing the schema via Sequelize migrations is recommended over `sync`.
-5.  **Add Blog Posts (Optional):** Add posts directly to your database (using Supabase Table Editor or DB Browser for SQLite) to see them on the `/blog` page.
+    * The application uses `sequelize.sync({ force: false })` on startup. This will automatically create the `Posts` and `Reviews` tables in your configured database if they don't exist.
+5.  **Add Content (Optional):** Add blog posts or approve reviews directly via your database tool (e.g., Supabase dashboard) to see content on the site.
 6.  **Start the server:**
     ```bash
     npm start
     ```
-7.  Open your browser and navigate to `http://localhost:3000` (or the port specified in `.env` or `server.js`).
+7.  Open your browser and navigate to `http://localhost:3000` (or the port specified).
 
 ## Deployment
 
-This application is designed to be deployed on platforms like Render (as indicated by logs during debugging). Key considerations for deployment:
+This application is designed for deployment on platforms like Render.
 
-* Set environment variables (`DATABASE_URL`, `NODE_ENV=production`, `BASE_URL`) in the hosting platform's settings.
+* Set environment variables (`DATABASE_URL`, `NODE_ENV=production`, `BASE_URL`, email credentials if used) in the hosting platform's settings.
 * Ensure the production `DATABASE_URL` points to your live database (Supabase).
 * Ensure the site is served over HTTPS.
-* Consider implementing a build step for frontend assets (minification, bundling) for optimal performance.
+* Consider implementing a build step for frontend assets.
 
 ## License
 
