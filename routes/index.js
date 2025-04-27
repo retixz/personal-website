@@ -19,7 +19,7 @@ router.get('/contact', (req, res) => {
     pageTitle: 'Contact Me',
     currentTheme: req.cookies.themePreference || 'light',
     email: 'r.alexandru.stoica@gmail.com',
-    phone: '+40 0733 597 787',
+    phone: '+40733597787',
     linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
     cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
     gaMeasurementId: process.env.GA_MEASUREMENT_ID
