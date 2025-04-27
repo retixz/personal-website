@@ -8,7 +8,8 @@ router.get('/', (req, res) => {
     currentTheme: req.cookies.themePreference || 'light',
     linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
     email: 'r.alexandru.stoica@gmail.com',
-    cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
+    cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
+    gaMeasurementId: process.env.GA_MEASUREMENT_ID
   };
   res.render('index', data);
 });
@@ -20,7 +21,8 @@ router.get('/contact', (req, res) => {
     email: 'r.alexandru.stoica@gmail.com',
     phone: '+40 0733 597 787',
     linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
-    cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
+    cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
+    gaMeasurementId: process.env.GA_MEASUREMENT_ID
   };
   res.render('contact', data);
 });

@@ -31,7 +31,9 @@ router.get('/', async (req, res) => {
       currentTheme: req.cookies.themePreference || 'light',
       linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
       email: 'r.alexandru.stoica@gmail.com',
-      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
+      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
+      gaMeasurementId: process.env.GA_MEASUREMENT_ID
+
     };
     res.render('blog', data);
   } catch (err) {
@@ -72,7 +74,8 @@ router.get('/:postId', async (req, res) => {
       email: 'r.alexandru.stoica@gmail.com',
       cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
       postUrl: postUrl,
-      encodedPostUrl: encodedPostUrl
+      encodedPostUrl: encodedPostUrl,
+      gaMeasurementId: process.env.GA_MEASUREMENT_ID
     };
 
     res.render('post-detail', data);

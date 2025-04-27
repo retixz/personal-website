@@ -93,8 +93,9 @@ router.post(
                     linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
                     email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
                     cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
-                    errors: errors.array(), // Pass the validation errors
-                    oldData: req.body       // Pass the submitted data back
+                    errors: errors.array(),
+                    oldData: req.body,
+                    gaMeasurementId: process.env.GA_MEASUREMENT_ID
                 };
                 // Set status to 400 and re-render the SAME template
                 return res.status(400).render('reviews', data);
@@ -141,7 +142,8 @@ router.post(
                         email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
                         cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
                         errors: error.errors.map(e => ({ msg: e.message, path: e.path })),
-                        oldData: req.body
+                        oldData: req.body,
+                        gaMeasurementId: process.env.GA_MEASUREMENT_ID
                     };
                     return res.status(400).render('reviews', data);
                 } catch (fetchErr) {

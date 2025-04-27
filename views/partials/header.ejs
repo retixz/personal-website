@@ -31,6 +31,16 @@
                             referrerpolicy="no-referrer" <%=locals.currentTheme==='light' ? 'disabled' : '' %>
                         <%# Initially disable if light %>
                             />
+                            <% if (locals.gaMeasurementId) { %>
+                                <script async
+                                    src="https://www.googletagmanager.com/gtag/js?id=<%= locals.gaMeasurementId %>"></script>
+                                <script>
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag() { dataLayer.push(arguments); }
+                                    gtag('js', new Date());
+                                    gtag('config', '<%= locals.gaMeasurementId %>');
+                                </script>
+                                <% } %>
 </head>
 
 <body class="<%= locals.currentTheme === 'dark' ? 'dark-mode' : '' %>">
