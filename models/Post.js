@@ -16,6 +16,11 @@ Post.init({
   content: {
     type: DataTypes.TEXT,
     allowNull: false
+  },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true // Ensure slugs are unique
   }
 }, {
   sequelize,

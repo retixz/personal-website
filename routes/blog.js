@@ -41,10 +41,9 @@ router.get('/', async (req, res) => {
     res.status(500).send("Eroare server la încărcarea blogului.");
   }
 });
-router.get('/:postId', async (req, res) => {
+router.get('/:slug', async (req, res) => {
   try {
-    const postId = req.params.postId;
-    const post = await Post.findByPk(postId);
+    const post = await Post.findOne({ where: { slug: req.params.slug } });
 
     if (!post) {
       return res.status(404).send('Post not found.');
