@@ -95,7 +95,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
     staticPages.forEach(page => {
       xml += '<url>';
-      xml += `<loc><span class="math-inline">${baseUrl}</span>${page.loc}</loc>`;
+      xml += `<loc>${baseUrl}${page.loc}</loc>`;
       xml += `<lastmod>${formatDate(page.lastmod)}</lastmod>`;
       xml += `<changefreq>${page.changefreq}</changefreq>`;
       xml += `<priority>${page.priority}</priority>`;
@@ -110,7 +110,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
     posts.forEach(post => {
       xml += '<url>';
-      xml += `<loc><span class="math-inline">${baseUrl}/blog/</span>${post.id}</loc>`;
+      xml += `<loc>${baseUrl}/blog/${post.id}</loc>`;
       xml += `<lastmod>${formatDate(post.updatedAt)}</lastmod>`;
       xml += `<changefreq>monthly</changefreq>`;
       xml += `<priority>0.9</priority>`; // High priority for content
