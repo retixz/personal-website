@@ -50,7 +50,7 @@ router.get('/:slug', async (req, res) => {
     }
 
     const baseUrl = process.env.BASE_URL || `http://${req.headers.host}`;
-    const postUrl = `${baseUrl}/blog/${post.id}`;
+    const postUrl = `${baseUrl}/blog/${post.slug}`;
 
     // URL Encode the post URL for the share link parameter
     const encodedPostUrl = encodeURIComponent(postUrl);
