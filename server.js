@@ -104,7 +104,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
     // 2. Add Dynamic Blog Post Pages
     const posts = await Post.findAll({
-      attributes: ['id', 'updatedAt'],
+      attributes: ['slug', 'updatedAt'],
       order: [['updatedAt', 'DESC']]
     });
 
