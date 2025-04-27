@@ -89,6 +89,7 @@ app.get('/sitemap.xml', async (req, res) => {
     const staticPages = [
       { loc: '/', changefreq: 'weekly', priority: '1.0', lastmod: new Date() },
       { loc: '/blog', changefreq: 'weekly', priority: '0.8', lastmod: new Date() },
+      { loc: '/reviews', changefreq: 'weekly', priority: '0.7', lastmod: new Date() },
       { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: new Date() }
     ];
 
