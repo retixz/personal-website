@@ -52,6 +52,15 @@ router.get('/:slug', async (req, res) => {
     const baseUrl = process.env.BASE_URL || `http://${req.headers.host}`;
     const postUrl = `${baseUrl}/blog/${post.slug}`;
 
+    let readingTimeText = '';
+    if (post.content) {
+        const strippedContent = post.content.replace(/<[^>]*>/g, '').trim(); // Strip HTML and trim
+        const wordCount = strippedContent.split(/\s+/).filter(word => word.length > 0).length; // Count words
+        const wordsPerMinute = 200; // Average reading speed
+        const minutes = Math.ceil(wordCount / wordsPerMinute);
+        readingTimeText = `${minutes} min read${minutes !== 1 ? 's' : ''}`;
+    }
+
     // URL Encode the post URL for the share link parameter
     const encodedPostUrl = encodeURIComponent(postUrl);
 
@@ -72,6 +81,7 @@ router.get('/:slug', async (req, res) => {
       linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
       email: 'r.alexandru.stoica@gmail.com',
       cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
+      readingTimeText: readingTimeText,
       postUrl: postUrl,
       encodedPostUrl: encodedPostUrl,
       gaMeasurementId: process.env.GA_MEASUREMENT_ID
