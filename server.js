@@ -37,11 +37,19 @@ app.use(
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         "script-src": [
-          "'self'",
-          "cdnjs.cloudflare.com",
-          "cdn.jsdelivr.net"
-
+            "'self'",
+            "cdnjs.cloudflare.com",
+            "cdn.jsdelivr.net",
+            "www.googletagmanager.com",
+            "'unsafe-inline'"
         ],
+        // Also good to allow connections to Google Analytics
+        "connect-src": [
+            "'self'",
+            "*.google-analytics.com",
+            "*.analytics.google.com"
+        ],
+        "img-src": ["'self'", "data:", "*.google-analytics.com", "*.analytics.google.com", "www.googletagmanager.com"]
       },
     },
   })
