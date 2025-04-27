@@ -110,7 +110,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
     posts.forEach(post => {
       xml += '<url>';
-      xml += `<loc>${baseUrl}/blog/${post.id}</loc>`;
+      xml += `<loc>${baseUrl}/blog/${post.slug}</loc>`;
       xml += `<lastmod>${formatDate(post.updatedAt)}</lastmod>`;
       xml += `<changefreq>monthly</changefreq>`;
       xml += `<priority>0.9</priority>`; // High priority for content
