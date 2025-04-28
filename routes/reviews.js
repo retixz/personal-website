@@ -25,6 +25,7 @@ router.get('/', async (req, res) => {
             pageTitle: 'Recommendations',
             reviews: approvedReviews,
             currentTheme: currentTheme,
+            githubProfileUrl: 'https://github.com/retixz',
             linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
             gaMeasurementId: process.env.GA_MEASUREMENT_ID,
             email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
@@ -45,6 +46,7 @@ router.get('/thank-you', (req, res) => {
         const data = {
             pageTitle: 'Thank You!',
             currentTheme: currentTheme,
+            githubProfileUrl: 'https://github.com/retixz',
             linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
             email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
             cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
@@ -90,6 +92,7 @@ router.post(
                     pageTitle: 'Recommendations | Error',
                     reviews: approvedReviews,
                     currentTheme: currentTheme,
+                    githubProfileUrl: 'https://github.com/retixz',
                     linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
                     email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
                     cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
@@ -138,6 +141,7 @@ router.post(
                         pageTitle: 'Recommendations | Error',
                         reviews: approvedReviews,
                         currentTheme: currentTheme,
+                        githubProfileUrl: 'https://github.com/retixz',
                         linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
                         email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
                         cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
