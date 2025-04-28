@@ -22,10 +22,17 @@
   <% } %>
 </script>
 
-<script src="/js/consent.js"></script>
-<script src="/js/theme.js"></script>
-<script src="/js/nav.js"></script>
-<script src="/js/particles-init.js"></script>
+<% if (process.env.NODE_ENV === 'production') { %>
+  <script src="/dist/consent.min.js"></script>
+  <script src="/dist/theme.min.js"></script>
+  <script src="/dist/nav.min.js"></script>
+  <script src="/dist/particles-init.min.js"></script>
+<% } else { %>
+  <script src="/js/consent.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/particles-init.js"></script>
+<% } %>
 
 <script type="application/ld+json">
   {

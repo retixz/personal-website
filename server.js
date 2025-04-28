@@ -54,6 +54,12 @@ app.use(session({
 sessionStore.sync();
 
 // --- Middleware ---
+
+app.use((req, res, next) => {
+  res.locals.NODE_ENV = process.env.NODE_ENV;
+  next();
+});
+
 app.use(
   helmet({
     contentSecurityPolicy: {
