@@ -21,6 +21,12 @@ Post.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true // Ensure slugs are unique
+  },
+  viewCount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    field: 'view_count' // IMPORTANT: This forces the DB column name to be snake_case
   }
 }, {
   sequelize,

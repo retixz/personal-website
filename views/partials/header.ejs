@@ -31,16 +31,30 @@
                             referrerpolicy="no-referrer" <%=locals.currentTheme==='light' ? 'disabled' : '' %>
                         <%# Initially disable if light %>
                             />
-                            <% if (locals.gaMeasurementId) { %>
-                                <script async
-                                    src="https://www.googletagmanager.com/gtag/js?id=<%= locals.gaMeasurementId %>"></script>
-                                <script>
-                                    window.dataLayer = window.dataLayer || [];
-                                    function gtag() { dataLayer.push(arguments); }
-                                    gtag('js', new Date());
-                                    gtag('config', '<%= locals.gaMeasurementId %>');
-                                </script>
-                                <% } %>
+                            <script>
+                                (function () {
+                                    const themeKey = 'themePreference';
+                                    const darkClassName = 'dark-mode';
+                                    let clientSideTheme;
+                                    try {
+                                        // Prioritize localStorage if it exists
+                                        clientSideTheme = localStorage.getItem(themeKey);
+                                        if (!clientSideTheme) {
+                                            // Fallback to system preference ONLY if no localStorage value
+                                            clientSideTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                                        }
+                                    } catch (e) {
+                                        // Default to light on error
+                                        clientSideTheme = 'light';
+                                    }
+                                    // Apply dark mode class only if needed and server didn't already apply it
+                                    if (clientSideTheme === 'dark') {
+                                        document.documentElement.classList.add(darkClassName);
+                                    }
+
+                                    document.documentElement.classList.add('js-loading');
+                                })();
+                            </script>
 </head>
 
 <body class="<%= locals.currentTheme === 'dark' ? 'dark-mode' : '' %>">

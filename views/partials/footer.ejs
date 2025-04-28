@@ -11,6 +11,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
+<script>
+  // Define global variables or attach to window object
+  <% if (locals.gaMeasurementId) { %>
+      window.APP_CONFIG = { // Using a namespace like APP_CONFIG is good practice
+          GA_MEASUREMENT_ID: '<%= locals.gaMeasurementId %>'
+      };
+  <% } else { %>
+      window.APP_CONFIG = {}; // Define empty object if ID is missing
+  <% } %>
+</script>
+
+<script src="/js/consent.js"></script>
 <script src="/js/theme.js"></script>
 <script src="/js/nav.js"></script>
 <script src="/js/particles-init.js"></script>
@@ -28,6 +40,16 @@
   }
 </script>
 
+<div id="cookie-consent-banner" class="cookie-consent-banner" style="display: none; /* JS will control display */">
+  <p>
+    This website uses cookies to enhance user experience, remember preferences, and analyze traffic. Read our <a
+      href="/privacy-policy">Privacy Policy</a>.
+  </p>
+  <div class="cookie-consent-buttons">
+    <button id="accept-cookies" class="cta-button primary small">Accept</button>
+    <button id="reject-cookies" class="cta-button secondary small">Reject</button>
+  </div>
+</div>
 </body>
 
 </html>

@@ -21,6 +21,13 @@
                                     <%= locals.readingTimeText %>
                                 </span>
                                 <% } %>
+
+                                    <% if (locals.post && locals.post.viewCount> 0) { %> <%# Optionally hide if views=0
+                                            %>
+                                            <span style="margin-left: 15px;"> | <span aria-label="Views">👀</span>
+                                                <%= locals.post.viewCount %> views
+                                            </span>
+                                            <% } %>
                     </p>
                     <% } %>
 

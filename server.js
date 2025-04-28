@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const sequelize = require('./database')
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
@@ -29,6 +31,22 @@ testConnectionAndSync();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// --- Session Configuration ---
+const sessionStore = new SequelizeStore({ db: sequelize });
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'fallback_secret',
+    store: sessionStore, // Use persistent store
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+    }
+}));
+
+sessionStore.sync();
 
 // --- Middleware ---
 app.use(

@@ -49,16 +49,36 @@ router.get('/:slug', async (req, res) => {
       return res.status(404).send('Post not found.');
     }
 
+    // --- Session-Based View Count Logic ---
+
+    // Initialize viewedPosts object in session if it doesn't exist
+    req.session.viewedPosts = req.session.viewedPosts || {};
+
+    const now = Date.now();
+    const lastViewed = req.session.viewedPosts[req.params.slug];
+    const oneHour = 60 * 60 * 1000; // 1h
+
+    // Check if post was viewed within the last hour in this session
+    if (!lastViewed || (now - lastViewed > oneHour)) {
+      console.log(`Incrementing view count for post: ${req.params.slug}`);
+      post.increment('viewCount').catch(err => console.error("Error incrementing view count:", err));
+
+      // Update the timestamp in the session for this post
+      req.session.viewedPosts[req.params.slug] = now;
+    } else {
+      console.log(`View count NOT incremented for post: ${req.params.slug} (viewed recently in session)`);
+    }
+
     const baseUrl = process.env.BASE_URL || `http://${req.headers.host}`;
     const postUrl = `${baseUrl}/blog/${post.slug}`;
 
     let readingTimeText = '';
     if (post.content) {
-        const strippedContent = post.content.replace(/<[^>]*>/g, '').trim(); // Strip HTML and trim
-        const wordCount = strippedContent.split(/\s+/).filter(word => word.length > 0).length; // Count words
-        const wordsPerMinute = 200; // Average reading speed
-        const minutes = Math.ceil(wordCount / wordsPerMinute);
-        readingTimeText = `${minutes} min read${minutes !== 1 ? 's' : ''}`;
+      const strippedContent = post.content.replace(/<[^>]*>/g, '').trim(); // Strip HTML and trim
+      const wordCount = strippedContent.split(/\s+/).filter(word => word.length > 0).length; // Count words
+      const wordsPerMinute = 200; // Average reading speed
+      const minutes = Math.ceil(wordCount / wordsPerMinute);
+      readingTimeText = `${minutes} min read`;
     }
 
     // URL Encode the post URL for the share link parameter

@@ -4,31 +4,58 @@
 /* ============================================= */
 /* --- Base Styles & Variables --- */
 /* ============================================= */
+
 :root {
-  /* Color Palette (Light Theme) */
-  --bg-light-mode: #FFFFFF;
-  --bg-card-light-mode: #F8F9FA;
-  --text-dark-mode: #212529;
-  --text-muted-light-mode: #6C757D;
-  --accent-blue: #007BFF;
-  --accent-subtle-light: #E9ECEF;
-  --border-color-light: #DEE2E6;
-  --link-green-light: #28A745;
+  /* -- Color Palette (Keep specific names for reference) -- */
+  --color-white: #FFFFFF;
+  --color-off-white: #F8F9FA;
+  --color-light-grey: #E9ECEF;
+  --color-medium-grey: #DEE2E6;
+  --color-dark-grey: #6C757D;
+  --color-near-black: #212529;
+  --color-blue: #007BFF;
+  --color-green: #28A745;
 
-  /* Color Palette (Dark Theme) */
-  --bg-dark: #0D1117;
-  --bg-card: #161B22;
-  --text-light: #E6EDF3;
-  --text-muted-dark: #8B949E;
-  --accent-purple: #BE54CF;
-  --accent-subtle: #21262D;
-  --border-color-dark: #30363D;
-  --link-blue-light: #58A6FF;
+  --color-dark-bg: #0D1117;
+  --color-dark-card: #161B22;
+  --color-dark-subtle: #21262D;
+  --color-dark-border: #30363D;
+  --color-dark-text: #E6EDF3;
+  --color-dark-muted: #8B949E;
+  --color-dark-purple: #BE54CF;
+  --color-dark-link-blue: #58A6FF;
 
-  /* Fonts */
+  /* ---  Input specific colors for light mode --- */
+  --input-bg-light: var(--color-white);
+  --input-text-light: var(--color-near-black);
+  --input-border-light: var(--color-medium-grey);
+  --input-focus-border-light: var(--color-blue);
+  --input-focus-shadow-light: rgba(0, 123, 255, 0.2);
+
+  /* -- Theme Agnostic Variables (Light Theme Defaults) -- */
+  --bg-main: var(--color-white);
+  --bg-card: var(--color-off-white);
+  --bg-subtle: var(--color-light-grey);
+  --text-main: var(--color-near-black);
+  --text-muted: var(--color-dark-grey);
+  --border-main: var(--color-medium-grey);
+  --accent-primary: var(--color-blue);
+  --accent-secondary: var(--color-green);
+
+  /* --- Assign Input variables to agnostic --- */
+  --input-bg: var(--input-bg-light);
+  --input-text: var(--input-text-light);
+  --input-border: var(--input-border-light);
+  --input-focus-border: var(--input-focus-border-light);
+  --input-focus-shadow: var(--input-focus-shadow-light);
+
+  /* Availability */
+
+  /* -- Fonts -- */
   --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-code: 'Courier New', Courier, monospace;
 
-  /* Spacing & Radius */
+  /* -- Spacing & Radius -- */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -36,49 +63,77 @@
   --spacing-xl: 32px;
   --border-radius: 6px;
 
-  /* Navigation Height */
+  /* -- Navigation Height -- */
   --nav-height: 55px;
 }
 
-/* Basic Reset */
+/* -- Dark Mode Variable Overrides -- */
+html.dark-mode {
+  --bg-main: var(--color-dark-bg);
+  --bg-card: var(--color-dark-card);
+  --bg-subtle: var(--color-dark-subtle);
+  --text-main: var(--color-dark-text);
+  --text-muted: var(--color-dark-muted);
+  --border-main: var(--color-dark-border);
+  --accent-primary: var(--color-dark-purple);
+  --accent-secondary: var(--color-dark-link-blue);
+  
+  /* --- Input specific colors for dark mode --- */
+  --input-bg-dark: #21262d;
+  --input-text-dark: var(--color-dark-text);
+  --input-border-dark: var(--color-dark-border);
+  --input-focus-border-dark: var(--color-dark-link-blue);
+  --input-focus-shadow-dark: rgba(88, 166, 255, 0.25);
+
+  /* --- Reassign Input variables for dark mode --- */
+  --input-bg: var(--input-bg-dark);
+  --input-text: var(--input-text-dark);
+  --input-border: var(--input-border-dark);
+  --input-focus-border: var(--input-focus-border-dark);
+  --input-focus-shadow: var(--input-focus-shadow-dark);
+}
+
+/* ============================================= */
+/* --- Global Resets & Base --- */
+/* ============================================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Initially hide the main page container when JS is loading */
+html {
+  /* Smooth scroll behavior */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  /* Needed for absolute positioned children like particles */
+  min-height: 100vh;
+  /* Ensure footer stays down */
+  display: flex;
+  /* Use flex to push footer down */
+  flex-direction: column;
+}
+
+/* Initially hide content if using js-loading technique */
 html.js-loading .page-container {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 }
 
-/* Style for when the page is loaded and ready to show */
 html.js-loaded .page-container {
   visibility: visible;
   opacity: 1;
-}
-
-/* --- Default Styles (Light Theme) --- */
-body {
-  font-family: var(--font-primary);
-  background-color: var(--bg-light-mode);
-  color: var(--text-dark-mode);
-  line-height: 1.6;
-  font-size: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  position: relative;
-}
-
-#particles-js {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-
 }
 
 img {
@@ -89,22 +144,45 @@ img {
 
 a {
   text-decoration: none;
-  color: var(--accent-blue);
+  color: var(--accent-primary);
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-ul {
-  list-style: none;
+a:hover {
+  opacity: 0.85;
 }
 
-/* --- General Layout --- */
+ul,
+ol {
+  list-style: none;
+  /* Base reset */
+}
+
+/* ============================================= */
+/* --- Layout Structure --- */
+/* ============================================= */
+
+#particles-js {
+  /* Background animation container */
+  position: fixed;
+  /* Use fixed to cover viewport always */
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
 .page-container {
-  min-height: 100vh;
+  flex-grow: 1;
+  /* Allow container to grow to push footer */
+  width: 100%;
 }
 
 .main-content-area {
   display: grid;
   grid-template-columns: 300px 1fr;
+  /* Default desktop layout */
   gap: var(--spacing-lg);
   padding: var(--spacing-lg);
   max-width: 1200px;
@@ -121,50 +199,125 @@ ul {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
+  /* Gap between sections in right column */
 }
 
-/* --- Card Styles --- */
+/* Center content for pages without columns (Blog List, Post Detail, Contact, Privacy) */
+.main-content-area.single-column {
+  display: block;
+  max-width: 800px;
+  /* Adjust max width as needed */
+}
+
+/* ============================================= */
+/* --- Reusable Components --- */
+/* ============================================= */
+
+/* --- Cards --- */
 .card {
-  background-color: var(--bg-card-light-mode);
+  background-color: var(--bg-card);
   border-radius: var(--border-radius);
   padding: var(--spacing-lg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--border-color-light);
+  border: 1px solid var(--border-main);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+html.dark-mode .card {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  /* Slightly stronger shadow for dark cards */
+}
+
+/* --- Buttons --- */
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-size: 0.95em;
+}
+
+.cta-button.primary {
+  background-color: var(--accent-primary);
+  color: var(--color-white);
+  /* Assuming primary accent always contrasts with white */
+}
+
+html.dark-mode .cta-button.primary {
+  color: var(--text-light);
+  /* Ensure contrast on dark purple */
+}
+
+.cta-button.primary:hover {
+  opacity: 0.85;
+}
+
+.cta-button.secondary {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.cta-button.secondary:hover {
+  filter: brightness(95%);
+  /* Slightly darken on hover */
+}
+
+html.dark-mode .cta-button.secondary:hover {
+  filter: brightness(120%);
+  /* Slightly lighten on hover */
+}
+
+.cta-button.tertiary {
+  background-color: transparent;
+  color: var(--accent-primary);
+  padding-left: 0;
+  padding-right: 0;
+  text-decoration: underline;
+}
+
+.cta-button.tertiary:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.cta-button.small {
+  /* For smaller contexts like cookie banner */
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
 /* ============================================= */
-/* --- Top Navigation --- */
+/* --- Navigation --- */
 /* ============================================= */
+
 .top-icon-nav {
-  background-color: var(--bg-card-light-mode);
+  background-color: var(--bg-card);
   padding: 0 var(--spacing-lg);
   display: grid;
   grid-template-columns: 1fr auto;
+  /* Desktop: Links centered, toggle right */
   align-items: center;
   gap: var(--spacing-md);
   min-height: var(--nav-height);
-  border-bottom: 1px solid var(--border-color-light);
+  border-bottom: 1px solid var(--border-main);
   transition: background-color 0.3s ease, border-color 0.3s ease;
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
-/* Desktop Navigation List */
 #main-nav-list {
   display: flex;
   gap: var(--spacing-sm);
   grid-column: 1 / 2;
   justify-self: center;
+  /* Center the list itself */
   align-items: center;
-  position: static;
-  width: auto;
-  background-color: transparent;
-  border-bottom: none;
-  box-shadow: none;
-  flex-direction: row;
-  padding: 0;
 }
 
 #main-nav-list li {
@@ -172,7 +325,7 @@ ul {
 }
 
 #main-nav-list li a {
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,24 +334,54 @@ ul {
   transition: background-color 0.2s ease, color 0.2s ease;
   min-width: 40px;
   min-height: 40px;
-  width: auto;
+  font-weight: 500;
 }
 
 #main-nav-list li a:hover,
 #main-nav-list li a:focus {
-  color: var(--text-dark-mode);
-  background-color: var(--accent-subtle-light);
+  color: var(--text-main);
+  background-color: var(--bg-subtle);
 }
 
 #main-nav-list li a svg {
+  /* SVG in nav links (e.g., LinkedIn) */
   width: 20px;
   height: 20px;
+  fill: currentColor;
+  /* Inherit color from link */
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
 }
 
-/* Hamburger Toggle Button (Hidden on Desktop) */
+#theme-toggle {
+  /* Theme toggle button specifically */
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  font-size: 1.2em;
+  line-height: 1;
+  grid-column: 2 / 3;
+  /* Position right on desktop */
+  justify-self: end;
+}
+
+#theme-toggle:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+  transform: scale(1.1);
+}
+
+/* Hamburger Menu (Hidden on Desktop) */
 #hamburger-toggle {
   display: none;
-  /* Hidden on desktop */
   background: none;
   border: none;
   cursor: pointer;
@@ -213,7 +396,7 @@ ul {
   display: block;
   width: 22px;
   height: 2px;
-  background-color: var(--text-muted-light-mode);
+  background-color: var(--text-muted);
   position: relative;
   transition: background-color 0.3s ease;
 }
@@ -224,7 +407,7 @@ ul {
   display: block;
   width: 100%;
   height: 2px;
-  background-color: var(--text-muted-light-mode);
+  background-color: var(--text-muted);
   position: absolute;
   left: 0;
   transition: transform 0.3s ease, top 0.3s ease;
@@ -238,62 +421,52 @@ ul {
   top: 6px;
 }
 
-/* Hamburger 'X' shape */
-body.nav-open #hamburger-toggle .hamburger-icon {
+/* Hamburger 'X' state (applied via JS on html/body) */
+.nav-open #hamburger-toggle .hamburger-icon {
   background-color: transparent;
 }
 
-body.nav-open #hamburger-toggle .hamburger-icon::before {
+.nav-open #hamburger-toggle .hamburger-icon::before {
   transform: rotate(45deg);
   top: 0;
 }
 
-body.nav-open #hamburger-toggle .hamburger-icon::after {
+.nav-open #hamburger-toggle .hamburger-icon::after {
   transform: rotate(-45deg);
   top: 0;
 }
 
-/* Theme Toggle Button */
-#theme-toggle {
-  background: none;
-  border: none;
-  color: var(--text-muted-light-mode);
-  cursor: pointer;
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  font-size: 1.2em;
-  line-height: 1;
-  grid-column: 2 / 3;
-  justify-self: end;
-}
-
-#theme-toggle:hover {
-  background-color: var(--accent-subtle-light);
-  transform: scale(1.1);
-}
 
 /* ============================================= */
-/* --- Left Column & Content Specifics --- */
+/* --- Left Column Components --- */
 /* ============================================= */
+
+/* --- Intro Card --- */
 .intro-card {
   display: flex;
-  align-items: center;
+  /* Use flex for centering on mobile */
   flex-direction: column;
+  align-items: center;
+  /* Default center alignment */
+}
+
+@media (min-width: 769px) {
+
+  /* Revert alignment on desktop */
+  .intro-card {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 .intro-card .availability {
   font-size: 0.8em;
   font-weight: 500;
-  color: var(--link-green-light);
+  color: var(--accent-secondary);
   margin-bottom: var(--spacing-sm);
 }
 
 .intro-card .availability span {
-  display: inline-block;
   margin-right: var(--spacing-xs);
 }
 
@@ -301,97 +474,95 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   font-size: 2em;
   margin-bottom: var(--spacing-sm);
   line-height: 1.2;
-  color: var(--text-dark-mode);
+  color: var(--text-main);
   font-weight: 700;
 }
 
 .intro-card .role {
   font-size: 1em;
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   margin-bottom: var(--spacing-md);
 }
 
 .intro-card .bio {
   font-size: 0.95em;
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   margin-bottom: var(--spacing-lg);
+  max-width: 60ch;
+  /* Limit bio width for readability */
 }
 
 .avatar-container {
   text-align: center;
   margin-bottom: var(--spacing-lg);
+  width: 100%;
 }
 
 .avatar {
-  width: 256px;
-  height: 256px;
+  width: 150px;
+  /* Increased size slightly */
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--bg-light-mode);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border: 3px solid var(--bg-main);
+  /* Border matches page background */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* Softer shadow */
+  display: inline-block;
+  /* Needed for centering within text-align */
 }
+
+html.dark-mode .avatar {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
 
 .action-buttons {
   display: flex;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
   flex-wrap: wrap;
-  /* Allow buttons to wrap if needed */
+  width: 100%;
+  justify-content: center;
 }
+
+@media (min-width: 769px) {
+  .action-buttons {
+    justify-content: flex-start;
+  }
+}
+
+.action-buttons .cta-button {
+  flex-grow: 1;
+}
+
+/* Let buttons grow */
+@media (min-width: 481px) {
+  .action-buttons .cta-button {
+    flex-grow: 0;
+  }
+}
+
+/* Don't grow on slightly larger screens */
+
 
 .cta-cv-area {
   text-align: center;
   margin-top: var(--spacing-md);
+  width: 100%;
 }
 
-/* --- Buttons --- */
-.cta-button {
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  font-size: 0.95em;
-  flex-grow: 1;
-  /* Allow buttons to grow if wrapping */
-}
-
-.cta-button.primary {
-  background-color: var(--accent-blue);
-  color: #fff;
-}
-
-.cta-button.primary:hover {
-  opacity: 0.85;
-}
-
-.cta-button.secondary {
-  background-color: var(--accent-subtle-light);
-  color: var(--text-dark-mode);
-}
-
-.cta-button.secondary:hover {
-  background-color: var(--border-color-light);
-}
-
-.cta-button.tertiary {
-  background-color: transparent;
-  color: var(--accent-blue);
-  padding-left: 0;
-  padding-right: 0;
+.cta-cv-area .cta-button.tertiary {
   flex-grow: 0;
-  /* Don't let text button grow */
 }
 
-.cta-button.tertiary:hover {
-  text-decoration: underline;
-  opacity: 0.8;
+/* Prevent CV button growing */
+
+/* --- Projects List --- */
+.projects-list {
+  /* Card already applied */
 }
 
-/* --- Lists --- */
 .list-header {
   display: flex;
   justify-content: space-between;
@@ -402,24 +573,28 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
 .list-header h3 {
   font-size: 1.2em;
   margin: 0;
-  color: var(--text-dark-mode);
+  color: var(--text-main);
 }
 
 .view-all {
   font-size: 0.9em;
-  color: var(--accent-blue);
+  color: var(--accent-primary);
   font-weight: 500;
   transition: opacity 0.2s ease;
   flex-shrink: 0;
-  /* Prevent shrinking */
 }
 
 .view-all:hover {
   opacity: 0.8;
 }
 
-.projects-list ul li,
-.products-list ul li {
+.projects-list ul {
+  padding: 0;
+  list-style: none;
+}
+
+/* Reset list styles */
+.projects-list ul li {
   margin-bottom: var(--spacing-sm);
 }
 
@@ -427,19 +602,23 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   display: flex;
   align-items: center;
   padding: var(--spacing-md);
-  border: 1px solid var(--border-color-light);
+  border: 1px solid var(--border-main);
   border-radius: var(--border-radius);
-  color: var(--text-dark-mode);
-  transition: background-color 0.2s ease;
+  color: var(--text-main);
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .projects-list ul li a:hover {
-  background-color: var(--accent-subtle-light);
+  background-color: var(--bg-subtle);
+  transform: translateY(-2px);
+  /* Subtle lift effect */
 }
 
 .project-icon {
   margin-right: var(--spacing-md);
   flex-shrink: 0;
+  color: var(--text-muted);
+  /* Style placeholder icon */
 }
 
 .project-info {
@@ -448,106 +627,80 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
 
 .project-info strong {
   display: block;
-  color: var(--text-dark-mode);
+  color: var(--text-main);
   font-weight: 500;
+  margin-bottom: var(--spacing-xs);
 }
 
 .project-info small {
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   font-size: 0.85em;
 }
 
 .arrow {
-  margin-left: var(--spacing-md);
-  color: var(--text-muted-light-mode);
+  margin-left: auto;
+  /* Push arrow to the right */
+  padding-left: var(--spacing-md);
+  color: var(--text-muted);
 }
+
 
 /* ============================================= */
-/* --- Right Column Content Styling --- */
+/* --- Right Column Components --- */
 /* ============================================= */
-.right-column>section {
-  margin-bottom: var(--spacing-xl);
-}
 
-.right-column>section:last-child {
-  margin-bottom: 0;
-}
-
-/* --- Tech Stack (within right column) --- */
-.tech-stack {
-  padding: var(--spacing-lg);
-}
-
-.tech-stack h4 {
-  font-size: 1.1em;
-  font-weight: 600;
-  margin-bottom: var(--spacing-md);
-  color: var(--text-dark-mode);
-}
-
-.tech-icons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-  align-items: center;
-}
-
-.tech-icons img,
-.tech-icons svg {
-  height: 28px;
-  width: auto;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-
-.tech-icons img:hover,
-.tech-icons svg:hover {
-  opacity: 1.0;
-}
-
-/* --- Feature Icon Cards Section (within right column) --- */
+/* --- Feature Icon Cards --- */
 .feature-cards-section {
   padding-top: var(--spacing-md);
 }
 
 .feature-cards-container-column {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Responsive grid */
   gap: var(--spacing-lg);
 }
 
 .feature-card {
-  flex-direction: column;
-  background-color: var(--bg-card-light-mode);
+  background-color: var(--bg-card);
   border-radius: var(--border-radius);
-  padding: var(--spacing-md);
-  border: 1px solid var(--border-color-light);
+  padding: var(--spacing-lg);
+  /* More padding */
+  border: 1px solid var(--border-main);
   display: flex;
+  flex-direction: column;
+  /* Stack icon, title, text */
   align-items: center;
-  gap: var(--spacing-md);
+  /* Center items */
+  text-align: center;
+  gap: var(--spacing-sm);
+  /* Smaller gap */
   transition: none;
+  /* Keep no transitions */
 }
 
-/* Removed hover transform */
 .feature-card:hover {
   box-shadow: none;
 }
 
-/* Removed hover shadow */
+/* Keep no hover shadow */
+
 .feature-card .icon-container {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  /* Slightly larger */
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-sm);
+  /* Space below icon */
   flex-shrink: 0;
 }
 
 .feature-card .icon-container svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   color: #fff;
 }
 
@@ -571,16 +724,16 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   font-size: 1em;
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
-  color: var(--text-dark-mode);
+  color: var(--text-main);
 }
 
 .feature-card p {
   font-size: 0.85em;
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   line-height: 1.4;
 }
 
-/* --- Quote Block (within right column) --- */
+/* --- Quote Block --- */
 .quote-block {
   text-align: center;
   padding: var(--spacing-lg) 0;
@@ -591,16 +744,16 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   font-size: 1.5em;
   font-weight: 500;
   line-height: 1.4;
-  color: var(--text-dark-mode);
+  color: var(--text-main);
 }
 
 .quote-block .separator {
-  color: var(--accent-blue);
+  color: var(--accent-primary);
   font-weight: 600;
   margin: 0 8px;
 }
 
-/* --- Expertise Details Section (within right column) --- */
+/* --- Expertise Details --- */
 .expertise-details {
   margin-top: var(--spacing-xl);
 }
@@ -610,9 +763,9 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   font-size: 1.4em;
   font-weight: 600;
   margin-bottom: var(--spacing-lg);
-  color: var(--text-dark-mode);
+  color: var(--text-main);
   padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--border-color-light);
+  border-bottom: 1px solid var(--border-main);
 }
 
 .expertise-columns {
@@ -621,18 +774,16 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   gap: var(--spacing-xl);
 }
 
-/* Stack by default */
 @media (min-width: 1024px) {
   .expertise-columns {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* 2 columns on large screens */
 .expertise-column h4 {
   font-size: 0.85em;
   font-weight: 600;
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: var(--spacing-xs);
@@ -648,11 +799,11 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   font-size: 1.3em;
   font-weight: 600;
   margin-bottom: var(--spacing-sm);
-  color: var(--text-dark-mode);
+  color: var(--text-main);
 }
 
 .expertise-column .column-description {
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   font-size: 0.9em;
   margin-bottom: var(--spacing-lg);
 }
@@ -667,7 +818,7 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   position: relative;
   padding: var(--spacing-sm) 0 var(--spacing-md) 40px;
   margin-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--accent-subtle-light);
+  border-bottom: 1px solid var(--bg-subtle);
 }
 
 .expertise-item:last-child {
@@ -684,7 +835,7 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   top: 5px;
   font-size: 2em;
   font-weight: 700;
-  color: var(--accent-subtle-light);
+  color: var(--bg-subtle);
   line-height: 1;
 }
 
@@ -692,113 +843,24 @@ body.nav-open #hamburger-toggle .hamburger-icon::after {
   font-size: 1em;
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
-  color: var(--text-dark-mode);
+  color: var(--text-main);
 }
 
 .expertise-item p {
   font-size: 0.85em;
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
   line-height: 1.5;
 }
 
-/* --- Footer --- */
-footer {
-  text-align: center;
-  margin-top: var(--spacing-xl);
-  padding: var(--spacing-lg);
-  color: var(--text-muted-light-mode);
-  font-size: 0.9em;
-  border-top: 1px solid var(--border-color-light);
-}
-
-/* --- General Link Hover --- */
-main a {
-  color: var(--accent-blue);
-}
-
-main a:hover {
-  color: var(--accent-blue);
-  text-decoration: underline;
-  opacity: 0.85;
-}
 
 /* ============================================= */
-/* --- Review Form Styling --- */
+/* --- Page Specific Styles --- */
 /* ============================================= */
 
-.review-form-section .card {
-  padding: var(--spacing-lg); /* Add padding back to the card */
-}
-
-.form-group {
-  margin-bottom: var(--spacing-md);
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: var(--spacing-xs);
-  font-weight: 500;
-  color: var(--text-dark-mode);
-}
-
-.form-group input[type="text"],
-.form-group input[type="url"],
-.form-group input[type="email"], /* Added for potential future forms */
-.form-group textarea {
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--border-color-light);
-  border-radius: var(--border-radius);
-  background-color: var(--bg-light-mode); /* Background for inputs */
-  color: var(--text-dark-mode);
-  font-family: inherit; /* Use main font */
-  font-size: 1em;
-  line-height: 1.5;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-group textarea {
-  resize: vertical; /* Allow vertical resize */
-  min-height: 100px;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Focus ring */
-}
-
-/* Style for required indicator */
-.form-group label span {
-  color: #dc3545; /* Red color for asterisk */
-}
-
-/* Honeypot hiding */
-.form-honeypot {
-  position: absolute !important; /* Ensure it's taken out of flow */
-  height: 1px; width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap; /* Prevent line breaks */
-  left: -5000px; /* Move way off screen */
-  top: -5000px;
-}
-
-.review-form-section button[type="submit"] {
-  margin-top: var(--spacing-sm);
-  width: auto; /* Allow button to size naturally */
-  cursor: pointer;
-}
-
-
-/* ============================================= */
 /* --- Blog Post Content Styling --- */
-/* ============================================= */
-
 .post-content {
-  line-height: 1.7; /* Improve readability */
-  font-size: 1.05em; /* Slightly larger font for reading */
+  line-height: 1.7;
+  font-size: 1.05em;
 }
 
 /* Spacing for elements within the post */
@@ -815,378 +877,486 @@ main a:hover {
   margin-bottom: var(--spacing-md);
 }
 
-.post-content ol,
-.post-content ul {
-    margin-left: var(--spacing-lg); 
-    margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+.post-content h2 {
+  font-size: 1.8em;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--bg-subtle);
 }
 
-/* Specific fix for ordered list numbers */
-.post-content ol {
-    list-style-position: inside; /* Place numbers inside the text flow */
-    padding-left: 0;
+.post-content h3 {
+  font-size: 1.5em;
 }
 
-.post-content li {
-    margin-bottom: var(--spacing-sm); /* Add space between list items */
+.post-content h4 {
+  font-size: 1.2em;
+  margin-top: var(--spacing-lg);
+  /* More space before H4 */
 }
-
-.post-content h2 { font-size: 1.8em; padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--accent-subtle-light); }
-.post-content h3 { font-size: 1.5em; }
-.post-content h4 { font-size: 1.2em; }
 
 /* Links within post content */
 .post-content a {
-  color: var(--accent-blue); /* Or maybe link-green-light? */
+  color: var(--accent-secondary);
   text-decoration: underline;
 }
+
 .post-content a:hover {
   opacity: 0.8;
 }
 
 /* Styling for Images */
 .post-content img {
-  max-width: 100%; /* Ensure images scale down */
-  height: auto;    /* Maintain aspect ratio */
-  display: block;  /* Prevent extra space below image */
-  margin-left: auto; /* Center images (optional) */
-  margin-right: auto;/* Center images (optional) */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+html.dark-mode .post-content img {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Styling for Blockquotes */
 .post-content blockquote {
   margin-left: var(--spacing-md);
-  padding: var(--spacing-md);
-  padding-left: var(--spacing-lg);
-  border-left: 4px solid var(--accent-blue); /* Accent border */
-  background-color: var(--accent-subtle-light); /* Subtle background */
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-left: 4px solid var(--accent-primary);
+  background-color: var(--bg-subtle);
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   font-style: italic;
-  color: var(--text-muted-light-mode);
+  color: var(--text-muted);
 }
+
+.post-content blockquote p {
+  margin: 0;
+}
+
+/* Reset paragraph margin inside blockquote */
 .post-content blockquote footer {
   margin-top: var(--spacing-sm);
   font-style: normal;
   font-size: 0.9em;
 }
+
 .post-content blockquote cite {
   font-weight: 500;
 }
 
-/* Styling for Code Blocks */
+/* Styling for Code Blocks (Let Prism theme handle colors/bg) */
 .post-content pre {
-  /* background-color: #f0f0f0; /* Light grey background */
-  /* border: 1px solid var(--border-color-light); */
   border-radius: var(--border-radius);
   padding: var(--spacing-lg);
-  overflow-x: auto; /* Allow horizontal scrolling for long lines */
+  overflow-x: auto;
   font-size: 0.9em;
-}
-.post-content pre code {
-  font-family: 'Courier New', Courier, monospace; /* Monospace font */
-  /* background-color: transparent; /* Code tag inside pre shouldn't have its own bg */
-  /* padding: 0; /* Reset padding */
-  /* border-radius: 0; */
-  /* border: none; */
+  /* Add margin if Prism theme doesn't */
+  margin: var(--spacing-md) 0;
 }
 
+.post-content pre code[class*="language-"] {
+  font-family: var(--font-code);
+}
+
+/* Ensure monospace font */
 /* Styling for Inline Code */
 .post-content code {
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #e7e7e7; /* Slightly different grey */
+  font-family: var(--font-code);
+  background-color: var(--bg-subtle);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.9em;
-  color: #333;
+  color: var(--text-main);
 }
 
-/* --- Dark Mode Overrides for Post Content --- */
+/* Dark Mode handled by Prism theme swap + variable overrides */
 
-body.dark-mode .post-content a {
-  color: var(--link-blue-light); /* Adjust link color for dark mode */
+/* --- Blog List Page --- */
+.blog-list-main h1,
+.post-detail-main h1 {
+  margin-bottom: var(--spacing-sm);
 }
 
-body.dark-mode .post-content blockquote {
-  border-left-color: var(--accent-purple);
-  background-color: var(--accent-subtle);
-  color: var(--text-muted-dark);
+/* Spacing for titles */
+.blog-list-main hr,
+.post-detail-main hr {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  border: none;
+  height: 1px;
+  background-color: var(--border-main);
 }
 
-body.dark-mode .post-content pre {
-  /* background-color: #1e1e1e; /* Darker background for code blocks */
-  /* border-color: var(--border-color-dark); */
-  /* color: #d4d4d4; /* Lighter text for code */
+.blog-post-summary {
+  margin-bottom: var(--spacing-xl);
 }
 
-body.dark-mode .post-content code {
-  /* background-color: var(--accent-subtle); */
-  /* color: #cda; Example: Light green/yellowish text for inline code */
+.blog-post-summary h2 {
+  font-size: 1.6em;
+  margin-bottom: var(--spacing-xs);
 }
 
-body.dark-mode .post-content h2 {
-   border-bottom-color: var(--border-color-dark);
+.post-meta {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-md);
 }
 
-body.dark-mode .post-content img {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+.blog-post-summary p {
+  margin-bottom: var(--spacing-md);
+}
+
+.blog-read-more {
+  text-align: right;
+  display: block;
+}
+
+/* --- Post Detail Page --- */
+.post-detail-main .post-meta {
+  border-bottom: 1px solid var(--border-main);
+  padding-bottom: var(--spacing-md);
+}
+
+.share-buttons {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Renamed from .share-buttons */
+.post-share-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.post-share-links svg {
+  fill: currentColor;
+}
+
+.audio-player {
+  margin: var(--spacing-lg) 0;
+}
+
+.audio-player p {
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.audio-player audio {
+  width: 100%;
+}
+
+/* --- Review Page Styling --- */
+.reviews-main h1,
+.reviews-main h2 {
+  margin-bottom: var(--spacing-md);
+}
+
+.reviews-main hr {
+  margin: var(--spacing-xl) 0;
+  border: none;
+  height: 1px;
+  background-color: var(--border-main);
+}
+
+.approved-reviews .review-card {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+.review-card blockquote {
+  margin: 0 0 var(--spacing-md) 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-style: italic;
+}
+
+.review-card blockquote p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.review-card footer {
+  text-align: right;
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+
+.review-card footer strong {
+  color: var(--text-main);
+}
+
+.review-card footer a {
+  margin-left: var(--spacing-sm);
+  text-decoration: none;
+}
+
+.review-card footer a:hover {
+  text-decoration: underline;
+}
+
+/* Form section already styled via components */
+.error-summary {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--border-radius);
+}
+
+html.dark-mode .error-summary {
+  background-color: #5a2d32;
+  color: #f8d7da;
+  border-color: #8c4a51;
+}
+
+.error-summary ul {
+  list-style: disc;
+  margin-left: var(--spacing-lg);
+  margin-top: var(--spacing-xs);
+}
+
+.error-message {
+  color: #721c24;
+  font-size: 0.85em;
+  display: block;
+  margin-top: var(--spacing-xs);
+}
+
+html.dark-mode .error-message {
+  color: #f8d7da;
+}
+
+/* --- Thank You Page --- */
+.thank-you-main {
+  text-align: center;
+}
+
+.thank-you-main .card {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--spacing-xl);
+}
+
+.thank-you-main span:first-child {
+  font-size: 3em;
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.thank-you-main h1 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.thank-you-main p {
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-muted);
+}
+
+.thank-you-main .cta-button {
+  margin-top: var(--spacing-sm);
 }
 
 
-/* ============================================= */
-/* --- Dark Mode Styles --- */
-/* ============================================= */
-
-body.dark-mode {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
+/* --- Privacy Policy Page Styling --- */
+.privacy-policy-main h1 {
+  font-size: 2em;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-main);
+  font-weight: 700;
 }
 
-body.dark-mode .card {
-  background-color: var(--bg-card);
-  border-color: var(--border-color-dark);
+.privacy-policy-main p em {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: var(--spacing-xl);
 }
 
-body.dark-mode .top-icon-nav {
-  background-color: var(--bg-card);
-  border-bottom-color: var(--border-color-dark);
+.privacy-policy-main h4 {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--border-main);
 }
 
-body.dark-mode #main-nav-list li a {
-  color: var(--text-muted-dark);
+.privacy-policy-main p {
+  line-height: 1.7;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-main);
 }
 
-body.dark-mode #main-nav-list li a:hover,
-body.dark-mode #main-nav-list li a:focus {
-  color: var(--text-light);
-  background-color: var(--accent-subtle);
+.privacy-policy-main ul,
+.privacy-policy-main ol {
+  margin-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  padding-left: var(--spacing-md);
 }
 
-body.dark-mode #hamburger-toggle .hamburger-icon,
-body.dark-mode #hamburger-toggle .hamburger-icon::before,
-body.dark-mode #hamburger-toggle .hamburger-icon::after {
-  background-color: var(--text-muted-dark);
+.privacy-policy-main ul li,
+.privacy-policy-main ol li {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.6;
 }
 
-body.dark-mode #theme-toggle {
-  border-color: none;
-  color: var(--text-muted-dark);
+.privacy-policy-main ul ul,
+.privacy-policy-main ol ol {
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
 }
 
-body.dark-mode #theme-toggle:hover {
-  background-color: var(--accent-subtle);
-  color: var(--text-light);
+.privacy-policy-main a {
+  color: var(--accent-secondary);
+  text-decoration: underline;
 }
 
-body.dark-mode .intro-card h1 {
-  color: var(--text-light);
-}
-
-body.dark-mode .intro-card .role {
-  color: var(--text-muted-dark);
-}
-
-body.dark-mode .intro-card .bio {
-  color: var(--text-muted-dark);
-}
-
-body.dark-mode .avatar {
-  border-color: var(--bg-dark);
-}
-
-body.dark-mode .intro-card .availability {
-  color: var(--link-blue-light);
-}
-
-body.dark-mode .cta-button.primary {
-  background-color: var(--accent-purple);
-  color: var(--text-light);
-}
-
-body.dark-mode .cta-button.secondary {
-  background-color: var(--accent-subtle);
-  color: var(--text-light);
-}
-
-body.dark-mode .cta-button.tertiary {
-  color: var(--accent-purple);
-}
-
-body.dark-mode .cta-button.primary:hover {
-  opacity: 0.85;
-  background-color: var(--accent-purple);
-}
-
-body.dark-mode .cta-button.secondary:hover {
-  background-color: var(--border-color-dark);
-}
-
-body.dark-mode .cta-button.tertiary:hover {
+/* Use secondary accent for links */
+.privacy-policy-main a:hover {
   opacity: 0.8;
 }
 
-body.dark-mode .list-header h3 {
-  color: var(--text-light);
-}
-
-body.dark-mode .view-all {
-  color: var(--accent-purple);
-}
-
-body.dark-mode .projects-list ul li a {
-  border-color: var(--border-color-dark);
-  color: var(--text-light);
-}
-
-body.dark-mode .projects-list ul li a:hover {
-  background-color: var(--accent-subtle);
-}
-
-body.dark-mode .project-info strong {
-  color: var(--text-light);
-}
-
-body.dark-mode .project-info small {
-  color: var(--text-muted-dark);
-}
-
-body.dark-mode .arrow {
-  color: var(--text-muted-dark);
-}
-
-body.dark-mode .tech-stack h4 {
-  color: var(--text-light);
-}
-
-body.dark-mode .tech-icons img,
-body.dark-mode .tech-icons svg {
-  opacity: 0.6;
-}
-
-body.dark-mode .tech-icons img:hover,
-body.dark-mode .tech-icons svg:hover {
-  opacity: 1.0;
-}
-
-body.dark-mode .feature-card {
+/* --- Cookie Consent Banner --- */
+.cookie-consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background-color: var(--bg-card);
-  border-color: var(--border-color-dark);
+  border-top: 1px solid var(--border-main);
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.06);
+  padding: var(--spacing-lg);
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: 0.9em;
 }
 
-body.dark-mode .feature-card:hover {
-  box-shadow: none;
+html.dark-mode .cookie-consent-banner {
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
 }
 
-body.dark-mode .feature-card h4 {
-  color: var(--text-light);
+.cookie-consent-banner p {
+  margin: 0;
+  margin-right: var(--spacing-lg);
+  flex-grow: 1;
+  line-height: 1.5;
+  color: var(--text-main);
 }
 
-body.dark-mode .feature-card p {
-  color: var(--text-muted-dark);
+.cookie-consent-banner a {
+  color: var(--accent-secondary);
+  text-decoration: underline;
+  font-weight: 500;
 }
 
-body.dark-mode .quote-block h2 {
-  color: var(--text-light);
+.cookie-consent-banner a:hover {
+  opacity: 0.8;
 }
 
-body.dark-mode .quote-block .separator {
-  color: var(--accent-purple);
+.cookie-consent-buttons {
+  flex-shrink: 0;
+  display: flex;
+  gap: var(--spacing-md);
 }
 
-body.dark-mode .expertise-details .section-title {
-  color: var(--text-light);
-  border-bottom-color: var(--border-color-dark);
+/* Class to hide banner via JS */
+.cookie-consent-hidden {
+  display: none !important;
 }
 
-body.dark-mode .expertise-column h4 {
-  color: var(--text-muted-dark);
+/* --- Input/Textarea Rules --- */
+.form-group input[type="text"],
+.form-group input[type="url"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--input-border); /* Use specific input border var */
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg); /* Use specific input background var */
+    color: var(--input-text); /* Use specific input text var */
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.5;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-body.dark-mode .expertise-column h5 {
-  color: var(--text-light);
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
-body.dark-mode .expertise-column .column-description {
-  color: var(--text-muted-dark);
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--input-focus-border); /* Use specific focus border var */
+    box-shadow: 0 0 0 3px var(--input-focus-shadow); /* Use specific focus shadow var */
 }
 
-body.dark-mode .expertise-item {
-  border-bottom-color: var(--border-color-dark);
+/* Honeypot field hiding - visually hides the element */
+.form-honeypot {
+  position: absolute !important; /* Force position out of normal flow */
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  /* Deprecated but part of older clip methods */
+  clip: rect(1px, 1px, 1px, 1px);
+  /* Modern clipping */
+  clip-path: inset(50%);
+  white-space: nowrap; /* Prevent line breaks */
+  /* Move far off-screen */
+  left: -5000px;
+  top: -5000px;
 }
 
-body.dark-mode .expertise-item::before {
-  color: var(--accent-subtle);
-}
+/* ============================================= */
+/* --- Dark Mode Overrides (Minimal Needed Now) --- */
+/* ============================================= */
 
-body.dark-mode .expertise-item h6 {
-  color: var(--text-light);
-}
+/* Most dark mode styling is handled by variables defined in html.dark-mode */
+/* Add specific overrides here only if variables aren't sufficient */
 
-body.dark-mode .expertise-item p {
-  color: var(--text-muted-dark);
-}
+/* Example: Slightly stronger shadow on dark cards (already added above) */
+/* html.dark-mode .card { box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); } */
 
-body.dark-mode .project-details h4 {
-  color: var(--text-muted-dark);
-}
+/* Example: Stronger image shadow in dark mode (already added above) */
+/* html.dark-mode .post-content img { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); } */
 
-body.dark-mode .project-details p {
-  color: var(--text-light);
-}
-
-body.dark-mode .project-details h3 {
-  color: var(--text-light);
-}
-
-body.dark-mode .project-images img {
-  border-color: var(--border-color-dark);
-}
-
-body.dark-mode footer {
-  color: var(--text-muted-dark);
-  border-top-color: var(--border-color-dark);
-}
-
-body.dark-mode main a {
-  color: var(--accent-purple);
-}
-
-body.dark-mode main a:hover {
-  color: var(--accent-purple);
-  opacity: 0.85;
-}
-
-body.dark-mode .form-group label {
-  color: var(--text-light);
-}
-
-body.dark-mode .form-group input[type="text"],
-body.dark-mode .form-group input[type="url"],
-body.dark-mode .form-group input[type="email"],
-body.dark-mode .form-group textarea {
-  background-color: #21262d; /* Darker input background */
-  border-color: var(--border-color-dark);
-  color: var(--text-light);
-}
-
-body.dark-mode .form-group input:focus,
-body.dark-mode .form-group textarea:focus {
-  border-color: var(--link-blue-light);
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.25); /* Focus ring for dark mode */
-}
+/* Example: Ensure hamburger icon color changes if needed (uses text-muted variable now) */
+/* html.dark-mode #hamburger-toggle .hamburger-icon, ... { background-color: var(--text-muted); } */
 
 /* Dark mode open mobile nav */
-body.dark-mode #main-nav-list.nav-open {
+html.dark-mode #main-nav-list.nav-open {
   background-color: var(--bg-card);
-  border-bottom-color: var(--border-color-dark);
+  border-bottom-color: var(--border-main);
 }
 
-body.dark-mode #main-nav-list.nav-open li a:hover,
-body.dark-mode #main-nav-list.nav-open li a:focus {
-  background-color: var(--accent-subtle);
+html.dark-mode #main-nav-list.nav-open li a:hover,
+html.dark-mode #main-nav-list.nav-open li a:focus {
+  background-color: var(--bg-subtle);
 }
+
+/* Ensure form error colors have enough contrast in dark mode */
+html.dark-mode .error-summary {
+  background-color: #5a2d32;
+  color: #f8d7da;
+  border-color: #8c4a51;
+}
+
+html.dark-mode .error-message {
+  color: #f8d7da;
+}
+
+html.dark-mode .error-message { color: #f8d7da; }
+html.dark-mode .error-summary { background-color: #5a2d32; color: #f8d7da; border-color: #8c4a51; }
 
 
 /* ============================================= */
@@ -1209,7 +1379,6 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
     padding: 0 var(--spacing-md);
   }
 
-  /* Stack expertise columns on tablet */
   .expertise-columns {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
@@ -1220,38 +1389,40 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
 @media (max-width: 768px) {
   .main-content-area {
     grid-template-columns: 1fr;
+    /* Stack main columns */
     margin-top: var(--spacing-md);
     padding: var(--spacing-md);
   }
 
+  .main-content-area.single-column {
+    /* Ensure single column layout takes precedence */
+    grid-template-columns: 1fr;
+  }
+
+  /* --- Mobile Navigation --- */
   .top-icon-nav {
     grid-template-columns: auto 1fr auto;
     padding: 0 var(--spacing-md);
     min-height: 50px;
   }
 
-  /* Hide desktop nav list */
   #main-nav-list {
     display: none;
-    /* Hide by default on mobile */
     order: 3;
     grid-column: auto;
-    /* Reset grid placement */
     justify-self: auto;
   }
 
-  /* Styles for when menu is open (toggled by JS) */
+  /* Mobile Nav Open State */
   #main-nav-list.nav-open {
     display: flex;
-    /* Show when open */
     flex-direction: column;
     position: absolute;
     top: 50px;
-    /* Adjust based on min-height */
     left: 0;
     width: 100%;
-    background-color: var(--bg-card-light-mode);
-    border-bottom: 1px solid var(--border-color-light);
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-main);
     padding: var(--spacing-sm) 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 99;
@@ -1269,32 +1440,28 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
     min-height: 44px;
   }
 
-  /* Hover/focus styles for open menu */
   #main-nav-list.nav-open li a:hover,
   #main-nav-list.nav-open li a:focus {
-    background-color: var(--accent-subtle-light);
+    background-color: var(--bg-subtle);
   }
 
-  /* Show hamburger, position in grid */
+  /* Hamburger Button */
   #hamburger-toggle {
     display: flex;
-    /* Show hamburger on mobile */
     align-items: center;
     grid-column: 1 / 2;
-    /* Hamburger on left */
     justify-self: start;
   }
 
-  /* Position theme toggle in grid */
+  /* Theme Toggle */
   #theme-toggle {
     grid-column: 3 / 4;
-    /* Theme toggle on right */
     justify-self: end;
     padding: var(--spacing-sm);
     font-size: 1.1em;
   }
 
-  /* Other mobile styles */
+  /* --- Mobile Layout Adjustments --- */
   .left-column {
     order: 1;
   }
@@ -1305,24 +1472,44 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
   }
 
   /* Adjust gap */
+
+  /* Intro Card Mobile */
+  .intro-card {
+    text-align: center;
+    /* Already set default, confirm needed */
+  }
+
   .intro-card h1 {
     font-size: 1.8em;
   }
 
+  .avatar {
+    width: 120px;
+    height: 120px;
+    /* Slightly smaller avatar */
+  }
+
   .action-buttons {
     flex-direction: column;
+    align-items: center;
+    /* Center buttons if column */
   }
 
   .cta-button {
     width: 100%;
+    max-width: 300px;
+    /* Limit button width */
     font-size: 1em;
     padding: 12px 20px;
   }
 
   .cta-cv-area .cta-button {
     width: auto;
+    max-width: none;
+    /* Let CV link size naturally */
   }
 
+  /* Project List Mobile */
   .projects-list ul li a {
     padding: var(--spacing-sm);
   }
@@ -1345,12 +1532,13 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
     font-size: 1.1em;
   }
 
-  /* Expertise section on mobile */
+  /* Expertise Section Mobile */
   .expertise-section-card {
     padding: var(--spacing-md);
   }
 
-  .expertise-section-card .section-title {
+  /* If used */
+  .expertise-details .section-title {
     font-size: 1.4em;
     margin-bottom: var(--spacing-lg);
   }
@@ -1381,16 +1569,16 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
     font-size: 0.8em;
   }
 
-  /* Feature cards on mobile */
+  /* Feature Cards Mobile */
   .feature-cards-container-column {
     gap: var(--spacing-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
+    /* Ensure stacking */
   }
 
   .feature-card {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
+    /* Adjust padding */
     gap: var(--spacing-sm);
   }
 
@@ -1410,10 +1598,9 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
 
   .feature-card p {
     font-size: 0.8em;
-    text-align: center;
   }
 
-  /* Quote block on mobile */
+  /* Quote Block Mobile */
   .quote-block {
     padding: var(--spacing-md) 0;
     margin: var(--spacing-sm) 0;
@@ -1423,13 +1610,15 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
     font-size: 1.3em;
   }
 
-  /* Tech stack on mobile */
+  /* Tech Stack Mobile */
   .tech-stack {
     padding: var(--spacing-md);
   }
 
   .tech-icons {
     gap: var(--spacing-sm);
+    justify-content: center;
+    /* Center icons */
   }
 
   .tech-icons img,
@@ -1437,4 +1626,74 @@ body.dark-mode #main-nav-list.nav-open li a:focus {
     height: 24px;
   }
 
+  /* Review Form Mobile */
+  .review-form-section .card {
+    padding: var(--spacing-md);
+  }
+
+  /* Cookie Banner Stacking (Handled by specific query below) */
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 480px) {
+  .cookie-consent-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-md);
+  }
+
+  .cookie-consent-banner p {
+    margin-right: 0;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cookie-consent-buttons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* ============================================= */
+/* --- Print Styles (Optional) --- */
+/* ============================================= */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  .top-icon-nav,
+  .cookie-consent-banner,
+  #particles-js,
+  footer {
+    display: none;
+  }
+
+  .card,
+  .main-content-area,
+  .left-column,
+  .right-column {
+    display: block;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  a {
+    text-decoration: underline;
+    color: black;
+  }
+
+  a[href^="/"]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* Show relative links */
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* Show absolute links */
 }

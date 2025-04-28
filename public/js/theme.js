@@ -1,103 +1,88 @@
-// public/js/theme.js
-
 (function () {
     // --- Constants ---
     const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const themeKey = 'themePreference';
-    const darkClassName = 'dark-mode';
+    const htmlElement = document.documentElement;
+    const themeKey = 'themePreference'; // Key for localStorage
+    const darkClassName = 'dark-mode'; // CSS class for dark mode
+    const lightIcon = '☀️';
+    const darkIcon = '🌙';
+    const CONSENT_COOKIE_NAME = 'cookie_consent_status';
+
     // --- Get references to Prism theme links ---
     const prismLightThemeLink = document.getElementById('prism-light-theme');
     const prismDarkThemeLink = document.getElementById('prism-dark-theme');
 
-    // --- Theme Colors for Vanta CLOUDS ---
-    const vantaCloudColors = {
-        light: {
-            skyColor: 0x007BFF,       // --bg-light-mode (White sky)
-            cloudColor: 0xE9ECEF,     // --accent-subtle-light (Light gray clouds)
-            sunColor: 0x007BFF,        // --accent-blue (Blue sun)
-            sunlightColor: 0x007BFF    // --accent-blue (Blue sunlight)
-        },
-        dark: {
-            skyColor: 0x0D1117,        // --bg-dark (Dark sky)
-            cloudColor: 0x161B22,      // --bg-card (Darker clouds)
-            sunColor: 0xBE54CF,        // --accent-purple (Purple sun)
-            sunlightColor: 0xBE54CF     // --accent-purple (Purple sunlight)
-        }
-    };
-
-    // --- Icons/Text for Toggle Button ---
-    const lightIcon = '☀️';
-    const darkIcon = '🌙';
-
-    // --- Function to update Vanta CLOUDS colors ---
-    window.updateVantaTheme = () => {
-        if (window.vantaEffect && typeof window.vantaEffect.setOptions === 'function') {
-            const isDarkMode = body.classList.contains(darkClassName);
-            // Get the correct set of colors based on current theme
-            const newOptions = isDarkMode ? vantaCloudColors.dark : vantaCloudColors.light;
-
-            // Check if update is needed (only checking main colors)
-            if (window.vantaEffect.options.skyColor !== newOptions.skyColor ||
-                window.vantaEffect.options.cloudColor !== newOptions.cloudColor ||
-                window.vantaEffect.options.sunColor !== newOptions.sunColor) {
-
-                // Update Vanta CLOUDS colors
-                window.vantaEffect.setOptions({
-                    skyColor: newOptions.skyColor,
-                    cloudColor: newOptions.cloudColor,
-                    sunColor: newOptions.sunColor,
-                    sunlightColor: newOptions.sunlightColor
-                });
-            }
-        }
+    // --- Helper Function to Read Consent Cookie ---
+    function getConsentStatus() {
+        const match = document.cookie.match(new RegExp('(^|;) ?' + CONSENT_COOKIE_NAME + '=([^;]+)'));
+        return match ? decodeURIComponent(match[2]) : null;
     }
 
-    // --- Function to update Prism theme ---
-    const updatePrismTheme = (theme) => {
-        if (!prismLightThemeLink || !prismDarkThemeLink) {
-            console.warn("Prism theme links not found.");
-            return;
-        }
-        if (theme === 'dark') {
-            prismDarkThemeLink.disabled = true;  // Enable dark theme CSS
-            prismLightThemeLink.disabled = false; // Disable light theme CSS
-        } else {
-            prismLightThemeLink.disabled = true; // Enable light theme CSS
-            prismDarkThemeLink.disabled = false;  // Disable dark theme CSS
-        }
-        console.log(`Prism theme set to: ${theme}`);
-    };
-
-    // --- Function to apply CSS theme and update toggle ---
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            body.classList.add(darkClassName);
-        } else {
-            body.classList.remove(darkClassName);
-        }
-
-        // Update toggle button appearance
+    // --- Function to update toggle button appearance ---
+    const updateToggleButton = (theme) => {
         if (themeToggle) {
             const isDarkMode = (theme === 'dark');
             themeToggle.innerHTML = isDarkMode ? darkIcon : lightIcon;
             themeToggle.setAttribute('aria-label', isDarkMode ? 'Switch to light theme' : 'Switch to dark theme');
         }
+    };
 
+    // --- Function to update Prism theme ---
+    const updatePrismTheme = (theme) => {
+        if (!prismLightThemeLink || !prismDarkThemeLink) {
+            return;
+        }
+
+        if (theme === 'dark') {
+            prismDarkThemeLink.disabled = false;
+            prismLightThemeLink.disabled = true;
+        } else {
+            prismLightThemeLink.disabled = false;
+            prismDarkThemeLink.disabled = true;
+        }
+
+        console.log(`Prism theme set to: ${theme}`);
+    };
+
+    // --- Function to apply theme changes (called by click handler) ---
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            htmlElement.classList.add(darkClassName);
+        } else {
+            htmlElement.classList.remove(darkClassName);
+        }
+
+        updateToggleButton(theme);
         updatePrismTheme(theme);
 
-        // Update Vanta colors AFTER changing the body class
-        window.updateVantaTheme();
     };
 
-    // --- Function to save preference ---
+    // --- Function to save preference (called by click handler) ---
     const savePreference = (theme) => {
-        localStorage.setItem(themeKey, currentTheme);
-        document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax;Secure`;
+        // Always save to localStorage
+        try {
+             localStorage.setItem(themeKey, theme);
+        } catch (e) {
+             console.warn("Could not save theme preference to localStorage.", e);
+        }
+
+        // Only save to cookie if consent was given
+        if (getConsentStatus() === 'accepted') {
+            const maxAgeSeconds = 365 * 24 * 60 * 60;
+            const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+            const themeCookieName = themeKey;
+
+            // Use encodeURIComponent for the theme value
+            document.cookie = `${themeCookieName}=${encodeURIComponent(theme)};path=/;max-age=${maxAgeSeconds};SameSite=Lax${secureFlag}`;
+            console.log("Theme preference cookie updated (consent accepted).");
+        } else {
+            console.log("Theme preference cookie NOT updated (consent not accepted).");
+        }
     };
 
-    // --- Function to get preference ---
-    const getPreference = () => {
+    // --- Function to get preference (Only needed for click handler now) ---
+    // This function checks localStorage first, then system preference.
+    const getClientSidePreference = () => {
         const savedTheme = localStorage.getItem(themeKey);
         if (savedTheme) { return savedTheme; }
         try {
@@ -105,24 +90,40 @@
                 return 'dark';
             }
         } catch (e) { console.warn("Could not determine system theme preference.", e); }
-        return 'light';
+        return 'light'; // Default to light if no setting found client-side
     };
 
-    // --- Initialize Theme on Load ---
-    let currentTheme = getPreference();
-    document.cookie = `${themeKey}=${currentTheme};path=/;max-age=31536000;SameSite=Lax;Secure`;
-    applyTheme(currentTheme);
-    updatePrismTheme(currentTheme);
+
+    // --- Initialize UI on Load (Using DOMContentLoaded) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Determine initial theme based *only* on the class NOW PRESENT on <html>
+        // (Set either by server via cookie OR by the inline script via localStorage/matchMedia)
+        const isInitiallyDark = htmlElement.classList.contains(darkClassName);
+        const initialTheme = isInitiallyDark ? 'dark' : 'light';
+    
+        updateToggleButton(initialTheme);
+        updatePrismTheme(initialTheme);
+    
+        // 3. Reveal content (remove js-loading, add js-loaded)
+        htmlElement.classList.remove('js-loading');
+        htmlElement.classList.add('js-loaded');
+        console.log(`Initial theme ('${initialTheme}') confirmed. Content revealed.`);
+    });
+
 
     // --- Event Listener for Toggle Button ---
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            currentTheme = body.classList.contains(darkClassName) ? 'light' : 'dark';
-            savePreference(currentTheme);
-            updatePrismTheme(currentTheme);
-            applyTheme(currentTheme);
+
+            const isCurrentlyDark = htmlElement.classList.contains(darkClassName);
+            const newTheme = isCurrentlyDark ? 'light' : 'dark';
+
+            savePreference(newTheme);
+            applyTheme(newTheme);
+
         });
     } else {
         console.warn('Theme toggle button with id="theme-toggle" not found.');
-    };
+    }
+
 })();
