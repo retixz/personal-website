@@ -10,8 +10,7 @@
                 </h1>
 
                 <% if (post.createdAt) { %>
-                    <p class="post-meta"
-                        style="font-size: 0.85em; color: var(--text-muted-light-mode); margin-bottom: var(--spacing-lg); border-bottom: 1px solid var(--border-color-light); padding-bottom: var(--spacing-md);">
+                    <p class="post-meta">
                         Published on <%= post.createdAt.toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
                             day: 'numeric' }) %>
 

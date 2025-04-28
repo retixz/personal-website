@@ -1012,9 +1012,33 @@ html.dark-mode .post-content img {
 }
 
 /* --- Post Detail Page --- */
-.post-detail-main .post-meta {
+.post-detail-main .post-full .post-meta {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-lg);
   border-bottom: 1px solid var(--border-main);
   padding-bottom: var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm) var(--spacing-md);
+  align-items: center;
+}
+
+.post-detail-main .post-full .post-meta span {
+   margin-left: 0;
+}
+
+.post-detail-main .post-full .post-meta .separator {
+  color: var(--text-muted);
+  margin: 0 var(--spacing-xs);
+}
+
+.post-detail-main .post-full .post-meta span[aria-label] {
+  margin-right: var(--spacing-xs);
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  top: -1px;
 }
 
 .share-buttons {
@@ -1273,6 +1297,10 @@ html.dark-mode .cookie-consent-banner {
 }
 
 /* --- Input/Textarea Rules --- */
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
 .form-group input[type="text"],
 .form-group input[type="url"],
 .form-group input[type="email"],
