@@ -12,7 +12,7 @@
     "minify-js-nav": "npx terser public/js/nav.js -o public/dist/nav.min.js -c -m",
     "minify-js-consent": "npx terser public/js/consent.js -o public/dist/consent.min.js -c -m",
     "minify-js-particles": "npx terser public/js/particles-init.js -o public/dist/particles-init.min.js -c -m",
-    "build": "npm run clean-dist && npm run minify-css && npm run minify-js-theme && npm run minify-js-nav && npm run minify-js-consent && npm run minify-js-particles"
+    "build": "npm list clean-css-cli && npm run clean-dist && npm run minify-css && npm run minify-js-theme && npm run minify-js-nav && npm run minify-js-consent && npm run minify-js-particles"
   },
   "author": "",
   "license": "ISC",
