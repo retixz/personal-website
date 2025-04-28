@@ -450,15 +450,6 @@ html.dark-mode .cta-button.secondary:hover {
   /* Default center alignment */
 }
 
-@media (min-width: 769px) {
-
-  /* Revert alignment on desktop */
-  .intro-card {
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
 .intro-card .availability {
   font-size: 0.8em;
   font-weight: 500;
@@ -489,7 +480,7 @@ html.dark-mode .cta-button.secondary:hover {
   color: var(--text-muted);
   margin-bottom: var(--spacing-lg);
   max-width: 60ch;
-  /* Limit bio width for readability */
+  text-align: justify;
 }
 
 .avatar-container {
@@ -526,11 +517,6 @@ html.dark-mode .avatar {
   justify-content: center;
 }
 
-@media (min-width: 769px) {
-  .action-buttons {
-    justify-content: flex-start;
-  }
-}
 
 .action-buttons .cta-button {
   flex-grow: 1;
