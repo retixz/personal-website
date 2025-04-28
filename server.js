@@ -32,6 +32,10 @@ testConnectionAndSync();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// --- Trust Proxy ---
+// Session middleware for behind a proxy like Render/Heroku/etc.
+app.set('trust proxy', 1);
+
 // --- Session Configuration ---
 const sessionStore = new SequelizeStore({ db: sequelize });
 app.use(session({
@@ -42,7 +46,8 @@ app.use(session({
     cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'lax'
     }
 }));
 
