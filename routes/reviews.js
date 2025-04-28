@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
             reviews: approvedReviews,
             currentTheme: currentTheme,
             linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
+            gaMeasurementId: process.env.GA_MEASUREMENT_ID,
             email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
-            cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
-            // Pass errors/oldData in case of redirecting back after validation failure (optional advanced)
-            // errors: req.flash('errors'), // Example using connect-flash
-            // oldData: req.flash('oldData')[0] || {}
+            cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',           
+            errors: [],
+            oldData: {}
         };
         res.render('reviews', data);
     } catch (err) {
