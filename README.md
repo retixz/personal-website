@@ -13,32 +13,34 @@ This project leverages a combination of modern web technologies chosen for flexi
 * **Database:** PostgreSQL (hosted on Supabase for production).
 * **ORM:** Sequelize for object-relational mapping, simplifying database interactions.
 * **Frontend:**
-    * Vanilla JavaScript for client-side interactions (navigation, theme switching).
+    * Vanilla JavaScript for client-side interactions (navigation, theme switching, consent management).
     * CSS3 with Custom Properties (Variables) for flexible styling and theming.
     * Particles.js for a lightweight, theme-aware animated background.
     * Prism.js for client-side syntax highlighting in blog posts.
 * **Environment:** `dotenv` for managing environment variables.
 * **Security/Validation Middleware:** `helmet`, `cookie-parser`, `express-rate-limit`, `express-validator`.
+* **Build Tools:** `clean-css-cli` and `terser` (managed via npm scripts) for CSS and JavaScript minification.
 
 ## Features
 
 * **Responsive Design:** Mobile-first approach ensuring usability across various screen sizes.
-* **Dynamic Light/Dark Theme:** User preference is detected, applied instantly server-side (via Cookies) to prevent flashing, saved in `localStorage`, and can be toggled client-side. Prism.js theme also adapts automatically.
+* **Dynamic Light/Dark Theme:** User preference is detected, applied instantly server-side (via Cookies) to prevent flashing, saved in `localStorage` (as fallback), and can be toggled client-side. Prism.js theme also adapts automatically.
 * **Blog Platform:**
     * Dynamically lists blog posts fetched from the database.
     * Displays individual blog posts with full content.
     * Supports formatted content including code blocks (with Prism.js syntax highlighting), images, quotes, etc.
-    * Uses Sequelize models for data structure.
+    * Calculated "Time to read" and session-based "View count" displayed per post.
 * **Recommendations/Reviews System:**
     * Displays approved recommendations on a dedicated page.
     * Allows users to submit new recommendations via a form.
-    * Submissions are saved with a `pending` status for manual moderation.
+    * Submissions saved with `pending` status for manual moderation.
     * Includes backend validation (`express-validator`), rate limiting (`express-rate-limit`), and a honeypot field for spam prevention.
     * Dedicated "Thank You" page after submission.
-    * *(Note: Email notification for pending reviews is planned but not included in this description).*
+    * *(Note: Email notification for pending reviews is not currently implemented).*
+* **Cookie Consent Banner:** Informs users about cookie usage and manages consent for non-essential cookies (Theme preference, Google Analytics).
 * **Animated Background:** Uses `particles.js` initialized with theme-appropriate colors.
-* **SEO Enhancements:** Includes dynamic page titles, per-post meta descriptions, JSON-LD schema markup (Person & BlogPosting), a dynamic `sitemap.xml` route, and `robots.txt`.
-* **Security Measures:** Implements `helmet` for security headers, secure flags for cookies, environment variables for credentials, and relies on Sequelize's protection against SQL injection.
+* **SEO Enhancements:** Dynamic page titles, per-post meta descriptions, JSON-LD Schema (Person & BlogPosting), dynamic `sitemap.xml` route, and `robots.txt`.
+* **Security Measures:** Implements `helmet` for security headers (including configured CSP), secure flags for cookies, environment variables for credentials, relies on Sequelize's protection against SQL injection.
 * **Contact Page:** Displays contact information.
 * **CV Download:** Link to download the CV PDF.
 
@@ -48,16 +50,17 @@ The project follows a standard MVC-like pattern:
 
 * `/`: Contains main configuration files (`package.json`, `.gitignore`, `.env` template).
 * `server.js`: The main application entry point, sets up Express, middleware, and routes.
-* `database.js`: Configures the Sequelize database connection (PostgreSQL/SQLite).
-* `/routes`: Contains Express route handlers (e.g., `index.js`, `blog.js`, `reviews.js`).
-* `/models`: Defines Sequelize data models (e.g., `Post.js`, `Review.js`).
+* `database.js`: Configures the Sequelize database connection (PostgreSQL/SQLite fallback).
+* `/routes`: Contains Express route handlers (`index.js`, `blog.js`, `reviews.js`).
+* `/models`: Defines Sequelize data models (`Post.js`, `Review.js`).
 * `/views`: Contains EJS templates, including:
     * `/partials`: Reusable template fragments (`header.ejs`, `footer.ejs`).
-    * Page templates (`index.ejs`, `blog.ejs`, `post-detail.ejs`, `contact.ejs`, `reviews.ejs`, `review-thank-you.ejs`).
+    * Page templates (`index.ejs`, `blog.ejs`, `post-detail.ejs`, `contact.ejs`, `reviews.ejs`, `review-thank-you.ejs`, `privacy-policy.ejs`).
 * `/public`: Contains static assets served directly to the client:
-    * `/css`: Stylesheets (`style.css`).
-    * `/js`: Client-side JavaScript (`theme.js`, `nav.js`, `particles-init.js`).
-    * `/images`: Site images (favicon, avatar).
+    * `/css`: Source stylesheets (`style.css`).
+    * `/js`: Source client-side JavaScript (`theme.js`, `nav.js`, `consent.js`, `particles-init.js`).
+    * `/images`: Site images (favicon, avatar, blog images).
+    * `/dist`: Contains **minified** CSS/JS assets generated by the build process (used in production).
     * Other static files (`robots.txt`, CV PDF).
 * `/data`: (Optional, for SQLite) Contains the `database.sqlite` file during local development.
 
@@ -65,79 +68,58 @@ The project follows a standard MVC-like pattern:
 
 ### SEO
 
-* **Dynamic Metadata:** Page titles and meta descriptions (for blog posts) are generated dynamically based on content.
-* **Structured Data:** JSON-LD schema for `Person` (homepage) and `BlogPosting` (blog posts).
-* **Crawling & Indexing:** A dynamic `/sitemap.xml` route lists all relevant pages (including blog posts), and `robots.txt` guides crawlers.
+* **Dynamic Metadata:** Page titles and meta descriptions (for blog posts) generated dynamically.
+* **Structured Data:** JSON-LD schema for `Person` and `BlogPosting`.
+* **Crawling & Indexing:** Dynamic `/sitemap.xml` route and `robots.txt`.
+* **URL Structure:** Currently uses slugs blog post URLs (`/blog/:slug`)
 
 ### Performance
 
-* **Theme Flash Prevention:** Uses a server-side cookie approach with class applied directly to `<html>` on initial response. Content visibility is managed via CSS/JS to prevent flashes.
-* **Optimized Script Loading:** Client-side JavaScript loaded non-blockingly at the end of the `<body>`.
-* **Efficient Background:** Uses `particles.js` (theme-aware) instead of heavier alternatives.
-* **Server-Side:** Recommendations include adding HTTP compression (`compression`) and static asset caching (`express.static` options). Blog pagination is advised for future scaling.
+* **Theme Flash Prevention:** Robust server-side cookie method with client-side `localStorage` fallback and immediate inline script check prevents FOUC.
+* **Asset Minification:** An `npm run build` script uses `clean-css-cli` and `terser` to minify CSS and JS assets into the `/public/dist/` directory. Production environments link to these minified files.
+* **Optimized Script Loading:** Client-side JavaScript loaded at the end of `<body>`.
+* **Efficient Background:** Uses theme-aware `particles.js`.
+* **Server-Side:** HTTP compression (`compression` middleware) and static asset caching (`express.static`).
 
 ### Security
 
-* **HTTP Headers:** `helmet` middleware sets various security headers. Content Security Policy is configured via Helmet to allow required CDNs (Prism.js).
-* **Cookie Security:** Theme cookie uses `SameSite=Lax` and `Secure` flags.
+* **HTTP Headers:** `helmet` middleware sets security headers, including a configured Content Security Policy allowing necessary CDNs.
+* **Cookie Security:** Session and Theme cookies use `SameSite=Lax` and `Secure` flags (in production). Theme cookie setting respects user consent.
 * **Credentials:** Database credentials managed via environment variables (`.env`).
 * **Submission Security:** Review submission uses CSRF protection (implicitly via standard form POST, consider adding explicit CSRF tokens for higher security), rate limiting (`express-rate-limit`), a honeypot field, and server-side validation/sanitization (`express-validator`).
 * **Dependencies:** Regular checks using `npm audit` are recommended.
 
 ### Code Clarity & Maintainability
 
-* **Modular Structure:** Clear separation into routes, models, views.
-* **Theming:** Extensive use of CSS Custom Properties (Variables) for easy light/dark theme management, including dynamic Prism.js theme switching.
+* **Modular Structure:** Clear separation of concerns.
+* **Theming:** CSS Custom Properties enable easy light/dark theme management and dynamic Prism.js theme switching.
 * **Code Reusability:** EJS partials for header/footer.
-* **Readability:** Use of linters/formatters like ESLint/Prettier is recommended.
 
 ## Setup & Running Locally
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <your-repo-url>
-    cd <your-repo-directory>
+1.  **Clone:** `git clone <your-repo-url>` / `cd <your-repo-directory>`
+2.  **Install:** `npm install`
+3.  **Environment:** Create `.env` file (see `.env.example` or structure below) and add `DATABASE_URL` (optional for SQLite fallback) and `BASE_URL=http://localhost:3000`. You will also need a `SESSION_SECRET`.
+    ```dotenv
+    # Example .env for local dev (using SQLite fallback)
+    # DATABASE_URL=
+    SESSION_SECRET=generate_a_strong_local_secret_here
+    BASE_URL=http://localhost:3000
+    # GA_MEASUREMENT_ID=G-XXXXXXXXXX # Optional for local testing
+    # EMAIL_... variables needed only if implementing email notifications
     ```
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Set up environment variables:**
-    * Create a `.env` file in the project root (copy from `.env.example` if provided, or create manually).
-    * Add your database connection string:
-        ```dotenv
-        # For PostgreSQL/Supabase (URL-encode password!)
-        DATABASE_URL=postgresql://postgres:[YOUR-ENCODED-PASSWORD]@[YOUR_SUPABASE_HOST]:5432/postgres
+4.  **Database Setup:** The `sequelize.sync({ force: false })` in `server.js` will create `database.sqlite` in `/data` and the necessary tables (`Posts`, `Reviews`) on first run if `DATABASE_URL` is not set. If using PostgreSQL locally, ensure the DB exists and set `DATABASE_URL`.
+5.  **Start:** `npm start`
+6.  **Access:** `http://localhost:3000` (or your configured port).
 
-        # Base URL for sitemap generation
-        BASE_URL=http://localhost:3000 # Change for production
+## Deployment (Render)
 
-        # Optional: Email credentials (if adding notifications later)
-        # EMAIL_HOST=...
-        # EMAIL_PORT=...
-        # EMAIL_SECURE=...
-        # EMAIL_USER=...
-        # EMAIL_PASS=...
-        # ADMIN_EMAIL=...
-        # EMAIL_FROM=...
-        ```
-4.  **Database Setup:**
-    * The application uses `sequelize.sync({ force: false })` on startup. This will automatically create the `Posts` and `Reviews` tables in your configured database if they don't exist.
-5.  **Add Content (Optional):** Add blog posts or approve reviews directly via your database tool (e.g., Supabase dashboard) to see content on the site.
-6.  **Start the server:**
-    ```bash
-    npm start
-    ```
-7.  Open your browser and navigate to `http://localhost:3000` (or the port specified).
-
-## Deployment
-
-This application is designed for deployment on platforms like Render.
-
-* Set environment variables (`DATABASE_URL`, `NODE_ENV=production`, `BASE_URL`, email credentials if used) in the hosting platform's settings.
-* Ensure the production `DATABASE_URL` points to your live database (Supabase).
-* Ensure the site is served over HTTPS.
-* Consider implementing a build step for frontend assets.
+* **Build Command:** Set to `npm run build` in Render settings. Render automatically runs `npm install` first.
+* **Start Command:** Set to `npm start`.
+* **Environment Variables:** Set `NODE_ENV=production`, `DATABASE_URL` (pointing to Supabase), `SESSION_SECRET` (use a strong, unique secret), `BASE_URL` (your production `https://...` URL), `GA_MEASUREMENT_ID`, and any email credentials in the Render service environment settings.
+* **Dependencies:** `clean-css-cli` and `terser` were moved to `dependencies` in `package.json` to ensure availability in the Render build environment.
+* **HTTPS:** Ensure Render is configured to serve over HTTPS.
+* **Database Migrations:** For robust production deployments, consider replacing `sequelize.sync()` with Sequelize migrations (`sequelize-cli`) managed as part of your deployment workflow.
 
 ## License
 
