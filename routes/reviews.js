@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Review = require('../models/Review');
-const { body, validationResult } = require('express-validator'); // Import validation functions
-const rateLimit = require('express-rate-limit'); // Import rate limiter
+const { body, validationResult } = require('express-validator');
+const rateLimit = require('express-rate-limit');
 
 // --- Rate Limiter for Submissions ---
 const reviewSubmitLimiter = rateLimit({
@@ -20,16 +20,9 @@ router.get('/', async (req, res) => {
             where: { status: 'approved' },
             order: [['createdAt', 'DESC']]
         });
-        const currentTheme = req.cookies.themePreference || 'light';
         const data = {
             pageTitle: 'Recommendations',
-            reviews: approvedReviews,
-            currentTheme: currentTheme,
-            githubProfileUrl: 'https://github.com/retixz',
-            linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
-            gaMeasurementId: process.env.GA_MEASUREMENT_ID,
-            email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
-            cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',           
+            reviews: approvedReviews,       
             errors: [],
             oldData: {}
         };
@@ -42,16 +35,10 @@ router.get('/', async (req, res) => {
 
 router.get('/thank-you', (req, res) => {
     try {
-        const currentTheme = req.cookies.themePreference || 'light';
         const data = {
             pageTitle: 'Thank You!',
-            currentTheme: currentTheme,
-            githubProfileUrl: 'https://github.com/retixz',
-            linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
-            email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
-            cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf'
         };
-        res.render('review-thank-you', data); // Render the new template
+        res.render('review-thank-you', data);
     } catch (err) {
         console.error("Error rendering thank you page:", err);
         res.status(500).send("Server error.");
@@ -85,20 +72,13 @@ router.post(
                     where: { status: 'approved' },
                     order: [['createdAt', 'DESC']]
                 });
-                const currentTheme = req.cookies.themePreference || 'light';
 
                 // Data object, including errors and old submitted data
                 const data = {
                     pageTitle: 'Recommendations | Error',
                     reviews: approvedReviews,
-                    currentTheme: currentTheme,
-                    githubProfileUrl: 'https://github.com/retixz',
-                    linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
-                    email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
-                    cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
                     errors: errors.array(),
                     oldData: req.body,
-                    gaMeasurementId: process.env.GA_MEASUREMENT_ID
                 };
                 // Set status to 400 and re-render the SAME template
                 return res.status(400).render('reviews', data);
@@ -136,18 +116,11 @@ router.post(
                 console.log("Sequelize validation errors:", error.errors);
                 try {
                     const approvedReviews = await Review.findAll({ where: { status: 'approved' }, order: [['createdAt', 'DESC']] });
-                    const currentTheme = req.cookies.themePreference || 'light';
                     const data = {
                         pageTitle: 'Recommendations | Error',
                         reviews: approvedReviews,
-                        currentTheme: currentTheme,
-                        githubProfileUrl: 'https://github.com/retixz',
-                        linkedinProfile: process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stoica-alexandru/',
-                        email: process.env.CONTACT_EMAIL || 'r.alexandru.stoica@gmail.com',
-                        cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
                         errors: error.errors.map(e => ({ msg: e.message, path: e.path })),
                         oldData: req.body,
-                        gaMeasurementId: process.env.GA_MEASUREMENT_ID
                     };
                     return res.status(400).render('reviews', data);
                 } catch (fetchErr) {

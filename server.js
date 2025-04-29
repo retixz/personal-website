@@ -32,9 +32,25 @@ testConnectionAndSync();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// --- Define Middleware for Common Locals ---
+function setCommonLocals(req, res, next) {
+  res.locals.linkedinProfile = process.env.LINKEDIN_PROFILE_URL || '#';
+  res.locals.githubProfileUrl = process.env.GITHUB_PROFILE_URL || '#';
+  res.locals.email = process.env.CONTACT_EMAIL || '';
+  res.locals.cvPath = process.env.CV_PATH || '';
+  res.locals.NODE_ENV = process.env.NODE_ENV || 'development';
+  res.locals.currentTheme = req.cookies.themePreference || 'light';
+  res.locals.gaMeasurementId = process.env.GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+  res.locals.phone = process.env.CONTACT_PHONE || '';
+
+  next();
+}
+
 // --- Trust Proxy ---
 // Session middleware for behind a proxy like Render/Heroku/etc.
 app.set('trust proxy', 1);
+
+app.use(cookieParser());
 
 // --- Session Configuration ---
 const sessionStore = new SequelizeStore({ db: sequelize });
@@ -91,14 +107,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '1d'
 }));
-app.use(compression());
+app.use(setCommonLocals);
 
 // --- Routes ---
 app.use((req, res, next) => {
   req.db = sequelize;
   next();
 });
-app.use(cookieParser());
 app.use('/', indexRoutes);
 app.use('/blog', blogRoutes);
 app.use('/reviews', reviewRoutes);

@@ -27,14 +27,7 @@ router.get('/', async (req, res) => {
 
     const data = {
       pageTitle: 'Blog',
-      posts: processedPosts,
-      currentTheme: req.cookies.themePreference || 'light',
-      githubProfileUrl: 'https://github.com/retixz',
-      linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
-      email: 'r.alexandru.stoica@gmail.com',
-      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
-      gaMeasurementId: process.env.GA_MEASUREMENT_ID
-
+      posts: processedPosts
     };
     res.render('blog', data);
   } catch (err) {
@@ -98,15 +91,9 @@ router.get('/:slug', async (req, res) => {
       metaDescription: metaDescription,
       datePublished: post.createdAt,
       dateModified: post.updatedAt,
-      currentTheme: req.cookies.themePreference || 'light',
-      githubProfileUrl: 'https://github.com/retixz',
-      linkedinProfile: 'https://www.linkedin.com/in/stoica-alexandru/',
-      email: 'r.alexandru.stoica@gmail.com',
-      cvPath: '/Alexandru_Stoica_-_Software_Engineer.pdf',
       readingTimeText: readingTimeText,
       postUrl: postUrl,
-      encodedPostUrl: encodedPostUrl,
-      gaMeasurementId: process.env.GA_MEASUREMENT_ID
+      encodedPostUrl: encodedPostUrl
     };
 
     res.render('post-detail', data);
